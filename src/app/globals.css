@@ -1,0 +1,357 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cholesterol-yellow: #FFC700;
+  --cholesterol-black: #000000;
+  --cholesterol-gray: #1C1C1E;
+  --cholesterol-gray-light: #2C2C2E;
+  --cholesterol-gray-mid: #3A3A3C;
+  --cholesterol-white: #FFFFFF;
+  --cholesterol-green: #32D74B;
+  --cholesterol-red: #FF453A;
+}
+
+/* ============================================
+   BASE STYLES — Apple Noir
+   ============================================ */
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #000000;
+  color: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+::selection {
+  background: rgba(255, 199, 0, 0.3);
+  color: #FFFFFF;
+}
+
+/* ============================================
+   SCROLLBAR — Minimal Apple Style
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Hide scrollbar on category filters */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ============================================
+   GLASSMORPHISM COMPONENTS
+   ============================================ */
+
+.glass {
+  background: rgba(28, 28, 30, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-light {
+  background: rgba(44, 44, 46, 0.6);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(28, 28, 30, 0.88);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(28, 28, 30, 0.6);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 2px 22px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   APPLE BUTTON STYLES
+   ============================================ */
+
+.btn-primary {
+  @apply bg-cholesterol-yellow text-black font-semibold rounded-[16px] px-6 py-3.5
+    transition-all duration-300 ease-out
+    hover:shadow-[0_0_30px_rgba(255,199,0,0.3)]
+    active:scale-[0.97]
+    disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100;
+}
+
+.btn-secondary {
+  @apply glass-card text-white font-medium rounded-[16px] px-6 py-3.5
+    transition-all duration-300 ease-out
+    hover:bg-cholesterol-gray-light
+    active:scale-[0.97];
+}
+
+.btn-danger {
+  @apply bg-cholesterol-red/10 text-cholesterol-red font-medium rounded-[16px] px-6 py-3.5
+    transition-all duration-300 ease-out
+    hover:bg-cholesterol-red/20
+    active:scale-[0.97];
+}
+
+.btn-icon {
+  @apply glass-card rounded-full p-3
+    transition-all duration-300 ease-out
+    hover:bg-cholesterol-gray-light
+    active:scale-90;
+}
+
+/* ============================================
+   ADMIN SETTINGS INPUTS
+   ============================================ */
+
+.settings-input {
+  @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5
+    text-sm text-white placeholder:text-white/20
+    focus:outline-none focus:border-[#FFC700]/50 transition-colors;
+}
+
+select.settings-input {
+  @apply appearance-none cursor-pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgba(255,255,255,0.3)' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+select.settings-input option {
+  background: #1C1C1E;
+  color: #fff;
+}
+
+/* ============================================
+   APPLE CARD STYLES
+   ============================================ */
+
+.card-product {
+  @apply glass-card rounded-[22px] overflow-hidden
+    transition-all duration-300 ease-out
+    hover:shadow-[0_8px_40px_rgba(0,0,0,0.4)]
+    hover:border-white/10
+    cursor-pointer;
+}
+
+.card-product:active {
+  transform: scale(0.98);
+}
+
+/* ============================================
+   BACKDROP BLUR OVERLAY
+   ============================================ */
+
+.backdrop-blur-overlay {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulseYellow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 199, 0, 0); }
+  50% { box-shadow: 0 0 15px rgba(255, 199, 0, 0.15); }
+}
+
+@keyframes pulseRed {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 69, 58, 0); }
+  50% { box-shadow: 0 0 20px rgba(255, 69, 58, 0.2); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 199, 0, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(255, 199, 0, 0.25); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-pop-in {
+  animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* Skeleton loading */
+.skeleton {
+  @apply bg-cholesterol-gray-light rounded-[16px] animate-shimmer;
+}
+
+/* ============================================
+   KDS ORDER CARD COLOR STATES
+   ============================================ */
+
+.order-fresh {
+  border-left: 4px solid #FFFFFF;
+}
+
+.order-warming {
+  border-left: 4px solid #FFC700;
+  animation: pulseYellow 2.5s ease-in-out infinite;
+}
+
+.order-urgent {
+  border-left: 4px solid #FF453A;
+  animation: pulseRed 1.8s ease-in-out infinite;
+}
+
+/* ============================================
+   TRACKING PROGRESS BAR
+   ============================================ */
+
+.tracking-step {
+  @apply relative flex flex-col items-center;
+}
+
+.tracking-step::after {
+  content: '';
+  @apply absolute top-1/2 left-full w-full h-0.5 -translate-y-1/2;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tracking-step:last-child::after {
+  display: none;
+}
+
+.tracking-step.active::after {
+  background: #FFC700;
+}
+
+.tracking-step.completed::after {
+  background: #32D74B;
+}
+
+/* ============================================
+   SWIPE TO CONFIRM (Delivery)
+   ============================================ */
+
+.swipe-track {
+  @apply relative w-full h-14 rounded-[16px] overflow-hidden;
+  background: rgba(28, 28, 30, 0.8);
+}
+
+.swipe-thumb {
+  @apply absolute inset-y-0 left-0 w-14 h-full flex items-center justify-center
+    bg-cholesterol-green rounded-[16px] cursor-grab
+    transition-all duration-150;
+}
+
+.swipe-thumb:active {
+  cursor: grabbing;
+}
+
+/* ============================================
+   SAFE AREA PADDING (iOS)
+   ============================================ */
+
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+/* ============================================
+   LINE CLAMP UTILITY
+   ============================================ */
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================
+   NOISE TEXTURE OVERLAY (Optional Premium)
+   ============================================ */
+
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.015;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
