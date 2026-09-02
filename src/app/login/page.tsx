@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Loader2, Lock, Mail, Shield, ChefHat, Truck } from 'lucide-react';
@@ -37,7 +37,7 @@ const DEMO_CREDENTIALS = [
   { email: 'delivery@colesterol.ve', password: 'delivery123', role: 'delivery' as const },
 ];
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login, isLoading } = useAuth();
@@ -193,5 +193,17 @@ export default function LoginPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-[#FFC700] animate-spin" />
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }
