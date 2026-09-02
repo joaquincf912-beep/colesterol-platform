@@ -49,7 +49,7 @@ ${itemsList}
 *Total:* $${total.toFixed(2)}
 *Pago:* ${paymentMethod}
 
-¡Gracias por elegir TractionWeb!`;
+¡Gracias por elegir traccionweb!`;
 
   const encodedMessage = encodeURIComponent(message);
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
@@ -61,7 +61,7 @@ ${itemsList}
  * Generate a simplified WhatsApp message for quick contact
  */
 export function contactWhatsApp(phone: string, message?: string) {
-  const text = message || '¡Hola! Estoy interesado en el menú de TractionWeb';
+  const text = message || '¡Hola! Estoy interesado en el menú de traccionweb';
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
   window.open(url, '_blank');
 }

@@ -5,15 +5,15 @@ import { AuthProvider } from '@/lib/auth';
 
 export const metadata: Metadata = {
   title: {
-    default: 'TractionWeb App',
-    template: '%s | TractionWeb App',
+    default: 'traccionweb App',
+    template: '%s | traccionweb App',
   },
-  description: 'La plataforma gastronomica premium de Venezuela. Burgers, street food y mas. Powered by TractionWeb.',
-  keywords: ['restaurante', 'burgers', 'street food', 'Venezuela', 'TractionWeb'],
+  description: 'La plataforma gastronomica premium de Venezuela. Burgers, street food y mas. Powered by traccionweb.',
+  keywords: ['restaurante', 'burgers', 'street food', 'Venezuela', 'traccionweb'],
   manifest: '/manifest.json',
   openGraph: {
-    title: 'TractionWeb App',
-    description: 'La plataforma gastronomica premium de Venezuela. Powered by TractionWeb.',
+    title: 'traccionweb App',
+    description: 'La plataforma gastronomica premium de Venezuela. Powered by traccionweb.',
     locale: 'es_VE',
     type: 'website',
   },

@@ -138,7 +138,7 @@ export default function AdminDashboard() {
 
   // Settings
   const [restaurantSettings, setRestaurantSettings] = useState<RestaurantSettings>({
-    name: 'TractionWeb',
+    name: 'traccionweb',
     slogan: 'Street Food Premium',
     phone: '+58 414 123 4567',
     whatsapp: '+58 414 123 4567',
@@ -300,7 +300,7 @@ export default function AdminDashboard() {
               <span className="text-black font-black text-lg">C</span>
             </div>
             <div>
-              <h1 className="text-base font-bold text-white">TractionWeb</h1>
+              <h1 className="text-base font-bold text-white">traccionweb</h1>
               <p className="text-[11px] text-white/30">Admin Panel</p>
             </div>
           </div>
