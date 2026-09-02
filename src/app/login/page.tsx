@@ -95,7 +95,7 @@ function LoginContent() {
           <div className="w-16 h-16 rounded-full bg-[#FFC700] flex items-center justify-center mx-auto mb-4 shadow-[0_0_40px_rgba(255,199,0,0.2)]">
             <span className="text-2xl font-black text-black">C</span>
           </div>
-          <h1 className="text-xl font-bold text-white">traccionweb</h1>
+          <h1 className="text-xl font-bold text-white">TraccionWeb</h1>
           <p className="text-[11px] text-white/30 mt-1 tracking-wider uppercase">Staff Portal</p>
         </div>
 

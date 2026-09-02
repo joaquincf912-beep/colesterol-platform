@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Push Notification Manager for traccionweb App
+ * Push Notification Manager for TraccionWeb App
  *
  * Handles browser push notifications for order status updates.
  * Falls back to in-app notifications if push isn't supported.

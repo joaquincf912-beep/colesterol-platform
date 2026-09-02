@@ -35,7 +35,7 @@ export default function WelcomeScreen({ onSelect }: WelcomeScreenProps) {
         className="text-center mb-12 relative z-10"
       >
         <h1 className="text-4xl sm:text-5xl font-black tracking-tighter text-white">
-          traccionweb
+          TraccionWeb
         </h1>
         <p className="text-white/30 text-sm mt-2 tracking-[0.2em] uppercase font-light">
           Street Food Premium
@@ -174,7 +174,7 @@ export default function WelcomeScreen({ onSelect }: WelcomeScreenProps) {
         transition={{ duration: 0.6, delay: 0.9 }}
         className="absolute bottom-8 text-[10px] text-white/15 tracking-wide"
       >
-        Desarrollado por traccionweb
+        Desarrollado por TraccionWeb
       </motion.p>
     </div>
   );

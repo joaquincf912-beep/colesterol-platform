@@ -116,7 +116,7 @@ export default function LandingPage() {
             <div className="w-8 h-8 rounded-full bg-[#FFC700] flex items-center justify-center">
               <span className="text-sm font-black text-black">C</span>
             </div>
-            <span className="text-sm font-bold text-white">traccionweb App</span>
+            <span className="text-sm font-bold text-white">TraccionWeb App</span>
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm text-white/40">
             <a href="#features" className="hover:text-white/70 transition-colors">Features</a>
@@ -124,7 +124,7 @@ export default function LandingPage() {
             <a href="#demo" className="hover:text-white/70 transition-colors">Demo</a>
           </div>
           <a
-            href="https://wa.me/584141234567?text=Hola,%20estoy%20interesado%20en%20traccionweb%20App"
+            href="https://wa.me/584141234567?text=Hola,%20estoy%20interesado%20en%20TraccionWeb%20App"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 rounded-full bg-[#FFC700] text-black text-xs font-semibold hover:bg-[#FFD633] transition-colors"
@@ -148,7 +148,7 @@ export default function LandingPage() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFC700]/10 border border-[#FFC700]/20 text-[#FFC700] text-xs font-medium mb-6">
               <Zap className="w-3 h-3" />
-              Powered by traccionweb
+              Powered by TraccionWeb
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] mb-6">
@@ -160,7 +160,7 @@ export default function LandingPage() {
 
             <p className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto mb-10 leading-relaxed">
               Menu digital, cocina conectada, reparto inteligente y dashboard completo.
-              Todo sincronizado en tiempo real. Construido por traccionweb.
+              Todo sincronizado en tiempo real. Construido por TraccionWeb.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -366,7 +366,7 @@ export default function LandingPage() {
               Unete a los restaurantes que ya estan vendiendo mas con tecnología de clase mundial.
             </p>
             <a
-              href="https://wa.me/584141234567?text=Hola,%20quiero%20una%20demo%20de%20traccionweb%20App"
+              href="https://wa.me/584141234567?text=Hola,%20quiero%20una%20demo%20de%20TraccionWeb%20App"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-[#25D366] text-white font-semibold text-sm hover:bg-[#20BD5A] transition-all active:scale-[0.98]"
@@ -385,9 +385,9 @@ export default function LandingPage() {
             <div className="w-6 h-6 rounded-full bg-[#FFC700] flex items-center justify-center">
               <span className="text-[10px] font-black text-black">C</span>
             </div>
-            <span className="text-xs text-white/30">traccionweb App</span>
+            <span className="text-xs text-white/30">TraccionWeb App</span>
           </div>
-          <p className="text-[10px] text-white/15">Desarrollado por traccionweb</p>
+          <p className="text-[10px] text-white/15">Desarrollado por TraccionWeb</p>
         </div>
       </footer>
     </div>
