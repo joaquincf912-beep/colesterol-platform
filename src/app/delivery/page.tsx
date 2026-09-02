@@ -9,6 +9,7 @@ import {
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useRealtimeOrders } from '@/lib/supabase/realtime';
 import { updateOrderStatus } from '@/lib/supabase/realtime';
+import { useOrderStore } from '@/stores/orders';
 import type { Order } from '@/types';
 import { STATUS_LABELS } from '@/types';
 import { formatTime, cn } from '@/lib/utils';
@@ -21,36 +22,21 @@ export default function DeliveryApp() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'pending' | 'active' | 'delivered'>('pending');
 
-  // Fetch assigned orders (falls back to demo data)
+  // Subscribe to shared order store (real-time cross-tab sync)
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const supabase = getSupabaseClient();
-        const { data, error } = await supabase
-          .from('orders')
-          .select('*')
-          .in('status', ['ready', 'dispatched', 'on_the_way'])
-          .order('created_at', { ascending: false });
+    const deliveryStatuses = ['ready', 'dispatched', 'on_the_way'];
+    const store = useOrderStore.getState();
+    const deliveryOrders = store.orders.filter((o) => deliveryStatuses.includes(o.status));
+    setOrders(deliveryOrders);
+    setIsLoading(false);
 
-        if (data && data.length > 0) {
-          setOrders(data as Order[]);
-        } else {
-          // Use demo orders that are ready, dispatched, or on_the_way
-          const demoDeliveryOrders = DEMO_ORDERS.filter((o) =>
-            ['ready', 'dispatched', 'on_the_way'].includes(o.status)
-          );
-          setOrders(demoDeliveryOrders);
-        }
-      } catch {
-        const demoDeliveryOrders = DEMO_ORDERS.filter((o) =>
-          ['ready', 'dispatched', 'on_the_way'].includes(o.status)
-        );
-        setOrders(demoDeliveryOrders);
-      }
-      setIsLoading(false);
-    };
+    // Poll store for changes every 500ms
+    const interval = setInterval(() => {
+      const current = useOrderStore.getState().orders.filter((o) => deliveryStatuses.includes(o.status));
+      setOrders(current);
+    }, 500);
 
-    fetchOrders();
+    return () => clearInterval(interval);
   }, []);
 
   // Real-time updates

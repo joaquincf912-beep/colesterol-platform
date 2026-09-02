@@ -17,6 +17,7 @@ import {
 } from 'recharts';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useRealtimeOrders, useRealtimeProducts } from '@/lib/supabase/realtime';
+import { useOrderStore } from '@/stores/orders';
 import type { Order, Product, ProductCategory, OrderStatus } from '@/types';
 import { CATEGORY_LABELS, CATEGORY_ICONS, STATUS_LABELS, PAYMENT_LABELS } from '@/types';
 import { formatPrice, cn, formatTime } from '@/lib/utils';
@@ -200,32 +201,20 @@ export default function AdminDashboard() {
   );
   const avgOrderValue = todayOrders > 0 ? todayTotal / todayOrders : 0;
 
-  // Fetch data
+  // Subscribe to shared order store (real-time cross-tab sync)
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const supabase = getSupabaseClient();
-        const [ordersRes, productsRes] = await Promise.all([
-          supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(200),
-          supabase.from('products').select('*').order('sort_order', { ascending: true }),
-        ]);
-        if (ordersRes.data && ordersRes.data.length > 0) {
-          setOrders(ordersRes.data as Order[]);
-        } else {
-          setOrders(DEMO_ORDERS);
-        }
-        if (productsRes.data && productsRes.data.length > 0) {
-          setProducts(productsRes.data as Product[]);
-        } else {
-          setProducts(DEMO_PRODUCTS);
-        }
-      } catch {
-        setOrders(DEMO_ORDERS);
-        setProducts(DEMO_PRODUCTS);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
+    const store = useOrderStore.getState();
+    setOrders([...store.orders]);
+    setProducts(DEMO_PRODUCTS);
+    setIsLoading(false);
+
+    // Poll store for changes every 500ms
+    const interval = setInterval(() => {
+      const currentOrders = [...useOrderStore.getState().orders];
+      setOrders(currentOrders);
+    }, 500);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Real-time updates

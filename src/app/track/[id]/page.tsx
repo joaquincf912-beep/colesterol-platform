@@ -8,6 +8,7 @@ import {
   Phone, MessageCircle, ArrowLeft, RefreshCw, Search
 } from 'lucide-react';
 import { getSupabaseClient } from '@/lib/supabase/client';
+import { useOrderStore } from '@/stores/orders';
 import { formatPrice, cn } from '@/lib/utils';
 import { DEMO_ORDERS } from '@/lib/demo-orders';
 import type { Order, OrderStatus } from '@/types';
@@ -45,7 +46,19 @@ export default function OrderTrackingPage() {
 
     const numId = parseInt(id);
 
-    // Always check demo data first (fast, no network)
+    // Check shared order store first (includes new orders from other tabs)
+    const storeOrder = useOrderStore.getState().getOrderByNumber(numId);
+    if (storeOrder) {
+      setOrder(storeOrder);
+      localStorage.setItem('colesterol_last_order', JSON.stringify({
+        orderId: storeOrder.id,
+        orderNumber: storeOrder.order_number,
+      }));
+      setIsLoading(false);
+      return;
+    }
+
+    // Fallback to demo data
     const demoOrder = DEMO_ORDERS.find((o) => o.order_number === numId);
     if (demoOrder) {
       setOrder(demoOrder);
@@ -128,9 +141,21 @@ export default function OrderTrackingPage() {
         supabase.removeChannel(channel);
       };
     } catch {
-      // Demo mode — no realtime
+      // Demo mode — use store polling
     }
-  }, [order?.id]);
+
+    // Also poll shared store for real-time updates from other tabs
+    const interval = setInterval(() => {
+      if (order) {
+        const updated = useOrderStore.getState().getOrderByNumber(order.order_number);
+        if (updated && updated.status !== order.status) {
+          setOrder(updated);
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [order?.id, order?.order_number]);
 
   const handleSearch = () => {
     if (searchInput.trim()) {

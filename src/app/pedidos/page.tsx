@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useRealtimeOrders } from '@/lib/supabase/realtime';
+import { useOrderStore } from '@/stores/orders';
 import type { Order, OrderStatus } from '@/types';
 import { STATUS_LABELS } from '@/types';
 import OrderCard from '@/components/kds/OrderCard';
@@ -51,40 +52,35 @@ export default function KitchenDisplay() {
     }
   }, [soundEnabled]);
 
-  // Fetch initial orders (falls back to demo data if Supabase unavailable)
+  // Subscribe to shared order store (real-time cross-tab sync)
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const supabase = getSupabaseClient();
-        const { data, error } = await supabase
-          .from('orders')
-          .select('*')
-          .not('status', 'in', '("delivered","cancelled")')
-          .order('created_at', { ascending: true });
+    const store = useOrderStore.getState();
+    const activeOrders = store.getActiveOrders();
+    setOrders(activeOrders);
+    prevOrderCountRef.current = activeOrders.length;
+    setIsLoading(false);
 
-        if (data && data.length > 0) {
-          setOrders(data as Order[]);
-          prevOrderCountRef.current = data.length;
-        } else {
-          // No orders in DB — use demo data (filter out delivered/cancelled for KDS)
-          const activeDemoOrders = DEMO_ORDERS.filter(
-            (o) => o.status !== 'delivered' && o.status !== 'cancelled'
-          );
-          setOrders(activeDemoOrders);
-          prevOrderCountRef.current = activeDemoOrders.length;
+    // Poll store for changes every 500ms (BroadcastChannel updates the store)
+    const interval = setInterval(() => {
+      const current = useOrderStore.getState().getActiveOrders();
+      setOrders((prev) => {
+        const prevIds = prev.map((o) => o.id).join(',');
+        const currIds = current.map((o) => o.id).join(',');
+        if (prevIds !== currIds || prev.length !== current.length) {
+          // New order arrived
+          if (current.length > prev.length) playNotificationSound();
+          return current;
         }
-      } catch {
-        // Supabase not configured — use demo data
-        const activeDemoOrders = DEMO_ORDERS.filter(
-          (o) => o.status !== 'delivered' && o.status !== 'cancelled'
-        );
-        setOrders(activeDemoOrders);
-        prevOrderCountRef.current = activeDemoOrders.length;
-      }
-      setIsLoading(false);
-    };
+        // Check for status changes
+        return current.map((o) => {
+          const old = prev.find((p) => p.id === o.id);
+          if (old && old.status !== o.status) return o;
+          return o;
+        });
+      });
+    }, 500);
 
-    fetchOrders();
+    return () => clearInterval(interval);
   }, []);
 
   // Real-time order updates

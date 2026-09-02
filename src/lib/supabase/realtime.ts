@@ -2,6 +2,7 @@
 
 import { useEffect, useCallback, useRef } from 'react';
 import { getSupabaseClient } from './client';
+import { useOrderStore } from '@/stores/orders';
 import type { Order, Product } from '@/types';
 
 type RealtimeCallback<T> = (payload: { eventType: string; new: T; old: T | null }) => void;
@@ -94,18 +95,55 @@ export function useRealtimeProducts(callback: RealtimeCallback<Product>) {
 export async function broadcastNewOrder(orderData: Record<string, unknown>) {
   const supabase = getSupabaseClient();
 
-  const { data, error } = await supabase
-    .from('orders')
-    .insert(orderData)
-    .select()
-    .single();
+  // Try Supabase first
+  try {
+    const { data, error } = await supabase
+      .from('orders')
+      .insert(orderData)
+      .select()
+      .single();
 
-  if (error) {
-    console.error('Error creating order:', error);
-    throw error;
+    if (!error && data) {
+      // Also add to local store for cross-tab sync
+      useOrderStore.getState().addOrder(data as Order);
+      return data as Order;
+    }
+  } catch {
+    // Fall through to demo mode
   }
 
-  return data as Order;
+  // Demo mode: create order locally with BroadcastChannel sync
+  const store = useOrderStore.getState();
+  const orderNumber = store.getNextOrderNumber();
+  const now = new Date().toISOString();
+  const newOrder: Order = {
+    id: 'order-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+    order_number: orderNumber,
+    customer_name: (orderData.customer_name as string) || 'Cliente',
+    customer_phone: (orderData.customer_phone as string) || '',
+    customer_address: (orderData.customer_address as string) || null,
+    customer_notes: (orderData.customer_notes as string) || null,
+    items: (orderData.items as any) || [],
+    subtotal: (orderData.subtotal as number) || 0,
+    delivery_fee: (orderData.delivery_fee as number) || 0,
+    total: (orderData.total as number) || 0,
+    payment_method: (orderData.payment_method as any) || 'cash_usd',
+    payment_confirmed: true,
+    status: 'received',
+    assigned_driver_id: null,
+    estimated_delivery_time: null,
+    actual_delivery_time: null,
+    kitchen_started_at: null,
+    kitchen_ready_at: null,
+    dispatched_at: null,
+    delivered_at: null,
+    cancelled_at: null,
+    cancellation_reason: null,
+    created_at: now,
+    updated_at: now,
+  };
+  store.addOrder(newOrder);
+  return newOrder;
 }
 
 /**
@@ -127,17 +165,22 @@ export async function updateOrderStatus(orderId: string, status: Order['status']
     updateData.cancellation_reason = extra?.reason;
   }
 
-  const { data, error } = await supabase
-    .from('orders')
-    .update(updateData)
-    .eq('id', orderId)
-    .select()
-    .single();
+  // Always update local store first (instant cross-tab sync)
+  useOrderStore.getState().updateOrderStatus(orderId, status, updateData as any);
 
-  if (error) {
-    console.error('Error updating order:', error);
-    throw error;
+  // Try Supabase
+  try {
+    const { data, error } = await supabase
+      .from('orders')
+      .update(updateData)
+      .eq('id', orderId)
+      .select()
+      .single();
+
+    if (!error && data) return data as Order;
+  } catch {
+    // Fall through — local store already updated
   }
 
-  return data as Order;
+  return useOrderStore.getState().getOrderById(orderId) as Order;
 }
