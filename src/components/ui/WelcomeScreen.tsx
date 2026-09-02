@@ -174,7 +174,7 @@ export default function WelcomeScreen({ onSelect }: WelcomeScreenProps) {
         transition={{ duration: 0.6, delay: 0.9 }}
         className="absolute bottom-8 text-[10px] text-white/15 tracking-wide"
       >
-        Desarrollado por Codebuff
+        Desarrollado por TractionWeb
       </motion.p>
     </div>
   );

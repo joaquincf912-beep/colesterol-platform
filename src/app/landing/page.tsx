@@ -117,6 +117,7 @@ export default function LandingPage() {
               <span className="text-sm font-black text-black">C</span>
             </div>
             <span className="text-sm font-bold text-white">Colesterol Platform</span>
+            <span className="text-[9px] text-white/20 border border-white/10 rounded-full px-2 py-0.5">by TractionWeb</span>
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm text-white/40">
             <a href="#features" className="hover:text-white/70 transition-colors">Features</a>
@@ -148,7 +149,7 @@ export default function LandingPage() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFC700]/10 border border-[#FFC700]/20 text-[#FFC700] text-xs font-medium mb-6">
               <Zap className="w-3 h-3" />
-              Plataforma #1 para restaurantes en Venezuela
+              Powered by TractionWeb
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] mb-6">
@@ -160,7 +161,7 @@ export default function LandingPage() {
 
             <p className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto mb-10 leading-relaxed">
               Menu digital, cocina conectada, reparto inteligente y dashboard completo.
-              Todo sincronizado en tiempo real. Diseñado en Cupertino, pensado para Caracas.
+              Todo sincronizado en tiempo real. Construido por TractionWeb.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -387,7 +388,7 @@ export default function LandingPage() {
             </div>
             <span className="text-xs text-white/30">Colesterol Platform</span>
           </div>
-          <p className="text-[10px] text-white/15">Desarrollado con Next.js + Supabase</p>
+          <p className="text-[10px] text-white/15">Desarrollado por TractionWeb</p>
         </div>
       </footer>
     </div>
