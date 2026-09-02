@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Push Notification Manager for Colesterol Platform
+ * Push Notification Manager for TractionWeb App
  *
  * Handles browser push notifications for order status updates.
  * Falls back to in-app notifications if push isn't supported.

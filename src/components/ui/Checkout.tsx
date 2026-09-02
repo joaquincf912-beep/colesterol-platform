@@ -126,11 +126,50 @@ export default function Checkout({ isOpen, onClose, orderMode }: CheckoutProps) 
       });
       setShowSuccess(true);
     } catch {
-      // Demo mode
-      const demoOrderNumber = Math.floor(1000 + Math.random() * 9000);
+      // Demo mode — create order in shared store
+      const { useOrderStore } = await import('@/stores/orders');
+      const store = useOrderStore.getState();
+      const orderNumber = store.getNextOrderNumber();
+      const now = new Date().toISOString();
+      const newOrder = {
+        id: 'order-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+        order_number: orderNumber,
+        customer_name: name,
+        customer_phone: phone,
+        customer_address: address || 'En local',
+        customer_notes: null,
+        items: items.map((item) => ({
+          product_id: item.product.id,
+          name: item.product.name,
+          quantity: item.quantity,
+          unit_price: item.product.price,
+          total_price: item.product.price * item.quantity,
+          customizations: item.customizations,
+          removed_ingredients: item.removed_ingredients,
+          notes: item.notes,
+        })),
+        subtotal: total,
+        delivery_fee: deliveryFee,
+        total: total + deliveryFee,
+        payment_method: paymentMethod,
+        payment_confirmed: true,
+        status: 'received',
+        assigned_driver_id: null,
+        estimated_delivery_time: null,
+        actual_delivery_time: null,
+        kitchen_started_at: null,
+        kitchen_ready_at: null,
+        dispatched_at: null,
+        delivered_at: null,
+        cancelled_at: null,
+        cancellation_reason: null,
+        created_at: now,
+        updated_at: now,
+      };
+      store.addOrder(newOrder as any);
       setOrderData({
-        orderId: 'demo-' + Date.now(),
-        orderNumber: demoOrderNumber,
+        orderId: newOrder.id,
+        orderNumber: orderNumber,
         total: total + deliveryFee,
         items: items.map((item) => ({
           name: item.product.name,

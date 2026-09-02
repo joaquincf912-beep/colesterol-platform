@@ -9,15 +9,16 @@ import { useCart } from '@/stores/cart';
 import { CATEGORY_LABELS } from '@/types';
 import { cn } from '@/lib/utils';
 import type { Product, ProductCategory } from '@/types';
-import ProductModal from '@/components/ui/ProductModal';
-import CartDrawer from '@/components/ui/CartDrawer';
-import Checkout from '@/components/ui/Checkout';
-import UpsellModal from '@/components/ui/UpsellModal';
+import dynamic from 'next/dynamic';
+const ProductModal = dynamic(() => import('@/components/ui/ProductModal'), { ssr: false });
+const CartDrawer = dynamic(() => import('@/components/ui/CartDrawer'), { ssr: false });
+const Checkout = dynamic(() => import('@/components/ui/Checkout'), { ssr: false });
+const UpsellModal = dynamic(() => import('@/components/ui/UpsellModal'), { ssr: false });
 import WelcomeScreen from '@/components/ui/WelcomeScreen';
 import NavigationRail from '@/components/menu/NavigationRail';
 import ProductCanvas from '@/components/menu/ProductCanvas';
 import { DEMO_PRODUCTS } from '@/lib/demo-data';
-import { motion as m } from 'framer-motion';
+
 
 type OrderMode = 'dine_in' | 'delivery' | null;
 

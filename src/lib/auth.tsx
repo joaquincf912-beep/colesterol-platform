@@ -25,7 +25,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 const DEMO_USERS: Record<string, { password: string; user: User }> = {
   'admin@colesterol.ve': {
     password: 'admin123',
-    user: { id: 'admin-1', email: 'admin@colesterol.ve', full_name: 'Admin Colesterol', role: 'admin' },
+    user: { id: 'admin-1', email: 'admin@traccionweb.com', full_name: 'Admin TractionWeb', role: 'admin' },
   },
   'cocina@colesterol.ve': {
     password: 'cocina123',

@@ -11,10 +11,8 @@ import {
   Utensils, Truck, Star, BarChart3, Calendar, Filter,
   ImagePlus, FileText, GripVertical, Copy, ExternalLink
 } from 'lucide-react';
-import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer
-} from 'recharts';
+import dynamic from 'next/dynamic';
+const SalesChart = dynamic(() => import('@/components/admin/SalesChart'), { ssr: false });
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { useRealtimeOrders, useRealtimeProducts } from '@/lib/supabase/realtime';
 import { useOrderStore } from '@/stores/orders';
@@ -140,7 +138,7 @@ export default function AdminDashboard() {
 
   // Settings
   const [restaurantSettings, setRestaurantSettings] = useState<RestaurantSettings>({
-    name: 'Colesterol',
+    name: 'TractionWeb',
     slogan: 'Street Food Premium',
     phone: '+58 414 123 4567',
     whatsapp: '+58 414 123 4567',
@@ -302,7 +300,7 @@ export default function AdminDashboard() {
               <span className="text-black font-black text-lg">C</span>
             </div>
             <div>
-              <h1 className="text-base font-bold text-white">Colesterol</h1>
+              <h1 className="text-base font-bold text-white">TractionWeb</h1>
               <p className="text-[11px] text-white/30">Admin Panel</p>
             </div>
           </div>
@@ -422,29 +420,7 @@ export default function AdminDashboard() {
                     <span className="text-xs text-[#FFC700] font-medium">Hoy</span>
                   </div>
                   <div className="h-56">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={salesData}>
-                        <defs>
-                          <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#FFC700" stopOpacity={0.3} />
-                            <stop offset="100%" stopColor="#FFC700" stopOpacity={0} />
-                          </linearGradient>
-                        </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                        <XAxis dataKey="time" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} />
-                        <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 10 }} axisLine={false} tickLine={false} />
-                        <Tooltip
-                          contentStyle={{
-                            background: '#1C1C1E',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            borderRadius: '12px',
-                            color: '#fff',
-                            fontSize: '12px',
-                          }}
-                        />
-                        <Area type="monotone" dataKey="sales" stroke="#FFC700" strokeWidth={2} fill="url(#colorSales)" />
-                      </AreaChart>
-                    </ResponsiveContainer>
+                    <SalesChart data={salesData.map((d) => ({ hour: d.time, ventas: d.sales, pedidos: 0 }))} />
                   </div>
                 </div>
 
@@ -1561,8 +1537,7 @@ function ProductEditor({
       {/* Basic Info */}
       <div className="glass-card rounded-2xl p-5 space-y-4">
         <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider">Información Básica</h3>
-        <SettingsField label="Nombre">
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="settings-input" placeholder="Ej: La Colesterol" />
+        <SettingsField label="Nombre">                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="settings-input" placeholder="Ej: Mi Restaurante" />
         </SettingsField>
         <SettingsField label="Descripción">
           <textarea

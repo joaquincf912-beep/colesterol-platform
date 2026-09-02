@@ -35,7 +35,7 @@ export default function WelcomeScreen({ onSelect }: WelcomeScreenProps) {
         className="text-center mb-12 relative z-10"
       >
         <h1 className="text-4xl sm:text-5xl font-black tracking-tighter text-white">
-          Colesterol
+          TractionWeb
         </h1>
         <p className="text-white/30 text-sm mt-2 tracking-[0.2em] uppercase font-light">
           Street Food Premium
