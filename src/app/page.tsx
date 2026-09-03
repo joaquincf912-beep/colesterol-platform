@@ -3,8 +3,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ShoppingBag, ArrowLeft } from 'lucide-react';
-import { getSupabaseClient } from '@/lib/supabase/client';
-import { useRealtimeProducts } from '@/lib/supabase/realtime';
 import { useCart } from '@/stores/cart';
 import { CATEGORY_LABELS } from '@/types';
 import { cn } from '@/lib/utils';
@@ -58,47 +56,12 @@ export default function MenuPage() {
     return () => clearInterval(interval);
   }, [getItemCount]);
 
-  // Fetch products
+  // Load products
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const supabase = getSupabaseClient();
-        const { data } = await supabase
-          .from('products')
-          .select('*')
-          .eq('is_available', true)
-          .order('sort_order', { ascending: true });
-
-        if (data && data.length > 0) {
-          setProducts(data as Product[]);
-        } else {
-          setProducts(DEMO_PRODUCTS);
-        }
-      } catch {
-        setProducts(DEMO_PRODUCTS);
-      }
-      setIsLoading(false);
-    };
-    fetchProducts();
+    setProducts(DEMO_PRODUCTS);
+    setIsLoading(false);
   }, []);
 
-  // Real-time product updates
-  useRealtimeProducts(({ eventType, new: newProduct, old }) => {
-    if (eventType === 'UPDATE') {
-      setProducts((prev) =>
-        prev.map((p) => (p.id === newProduct.id ? newProduct : p))
-      );
-      if (!newProduct.is_available) {
-        setProducts((prev) => prev.filter((p) => p.id !== newProduct.id));
-      }
-    }
-    if (eventType === 'INSERT' && newProduct.is_available) {
-      setProducts((prev) => [...prev, newProduct]);
-    }
-    if (eventType === 'DELETE' && old) {
-      setProducts((prev) => prev.filter((p) => p.id !== old.id));
-    }
-  });
 
   const handleModeSelect = useCallback((mode: OrderMode) => {
     setOrderMode(mode);
