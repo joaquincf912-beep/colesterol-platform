@@ -1,17 +1,15 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import {
-  ChefHat, Bell, RefreshCw, LayoutGrid, List,
-  Volume2, VolumeX, Filter
+  ChefHat, Bell, LayoutGrid, List,
+  Volume2, VolumeX
 } from 'lucide-react';
 import { useOrderStore } from '@/stores/orders';
 import type { Order, OrderStatus } from '@/types';
 import { STATUS_LABELS } from '@/types';
 import OrderCard from '@/components/kds/OrderCard';
 import { cn } from '@/lib/utils';
-import { useNotifications } from '@/hooks/useNotifications';
 
 type ViewMode = 'grid' | 'list';
 type StatusFilter = OrderStatus | 'all';
@@ -23,8 +21,6 @@ export default function KitchenDisplay() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [soundEnabled, setSoundEnabled] = useState(true);
   const prevOrderCountRef = useRef(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { checkNewOrders } = useNotifications({ enabled: true, soundEnabled });
 
   // Play notification sound on new orders
   const playNotificationSound = useCallback(() => {
@@ -59,9 +55,6 @@ export default function KitchenDisplay() {
         const allOrders = await res.json();
         const active = allOrders.filter((o: any) => o.status !== 'delivered' && o.status !== 'cancelled');
         
-        // Check for new orders and notify
-        checkNewOrders(active);
-
         setOrders((prev) => {
           const prevIds = prev.map((o) => o.id).join(',');
           const currIds = active.map((o: any) => o.id).join(',');
@@ -212,7 +205,7 @@ export default function KitchenDisplay() {
           </div>
         ) : filteredOrders.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-5xl mb-4">👨‍🍳</p>
+            <p className="text-5xl mb-4 text-cholesterol-yellow">+</p>
             <p className="text-white/40 text-lg font-medium">
               No hay pedidos pendientes
             </p>
@@ -226,15 +219,13 @@ export default function KitchenDisplay() {
               ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
               : 'space-y-3 max-w-2xl mx-auto'
           )}>
-            <AnimatePresence mode="popLayout">
-              {filteredOrders.map((order) => (
-                <OrderCard
-                  key={order.id}
-                  order={order}
-                  onStatusChange={handleStatusChange}
-                />
-              ))}
-            </AnimatePresence>
+            {filteredOrders.map((order) => (
+              <OrderCard
+                key={order.id}
+                order={order}
+                onStatusChange={handleStatusChange}
+              />
+            ))}
           </div>
         )}
       </main>
