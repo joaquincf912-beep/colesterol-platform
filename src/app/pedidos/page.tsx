@@ -8,7 +8,6 @@ import {
   Volume2, VolumeX, Filter
 } from 'lucide-react';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { useRealtimeOrders } from '@/lib/supabase/realtime';
 import { useOrderStore } from '@/stores/orders';
 import type { Order, OrderStatus } from '@/types';
 import { STATUS_LABELS } from '@/types';
@@ -89,31 +88,6 @@ export default function KitchenDisplay() {
     const interval = setInterval(fetchOrders, 2000);
     return () => clearInterval(interval);
   }, []);
-
-  // Real-time order updates
-  useRealtimeOrders(({ eventType, new: newOrder, old }) => {
-    if (eventType === 'INSERT') {
-      setOrders((prev) => [...prev, newOrder]);
-      playNotificationSound();
-    }
-
-    if (eventType === 'UPDATE') {
-      setOrders((prev) => {
-        const updated = prev.map((o) => (o.id === newOrder.id ? newOrder : o));
-        // Remove delivered/cancelled orders after 5 seconds
-        if (newOrder.status === 'delivered' || newOrder.status === 'cancelled') {
-          setTimeout(() => {
-            setOrders((prev) => prev.filter((o) => o.id !== newOrder.id));
-          }, 5000);
-        }
-        return updated;
-      });
-    }
-
-    if (eventType === 'DELETE' && old) {
-      setOrders((prev) => prev.filter((o) => o.id !== old.id));
-    }
-  });
 
   const handleStatusChange = (updatedOrder: Order) => {
     setOrders((prev) =>

@@ -14,7 +14,7 @@ import {
 import dynamic from 'next/dynamic';
 const SalesChart = dynamic(() => import('@/components/admin/SalesChart'), { ssr: false });
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { useRealtimeOrders, useRealtimeProducts } from '@/lib/supabase/realtime';
+
 import { useOrderStore } from '@/stores/orders';
 import type { Order, Product, ProductCategory, OrderStatus } from '@/types';
 import { CATEGORY_LABELS, CATEGORY_ICONS, STATUS_LABELS, PAYMENT_LABELS } from '@/types';
@@ -217,25 +217,6 @@ export default function AdminDashboard() {
     setIsLoading(false);
     const interval = setInterval(fetchOrders, 2000);
   }, []);
-
-  // Real-time updates
-  useRealtimeOrders(({ eventType, new: newOrder }) => {
-    if (eventType === 'INSERT') {
-      setOrders((prev) => [newOrder, ...prev]);
-    }
-    if (eventType === 'UPDATE') {
-      setOrders((prev) => prev.map((o) => (o.id === newOrder.id ? newOrder : o)));
-    }
-  });
-
-  useRealtimeProducts(({ eventType, new: newProduct }) => {
-    if (eventType === 'UPDATE') {
-      setProducts((prev) => prev.map((p) => (p.id === newProduct.id ? newProduct : p)));
-    }
-    if (eventType === 'INSERT') {
-      setProducts((prev) => [...prev, newProduct]);
-    }
-  });
 
   // Refresh timestamps every 10s for live monitor
   useEffect(() => {

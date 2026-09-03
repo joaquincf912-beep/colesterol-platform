@@ -8,7 +8,6 @@ import {
   ChevronRight, Package, Clock, Truck
 } from 'lucide-react';
 import { getSupabaseClient } from '@/lib/supabase/client';
-import { useRealtimeOrders } from '@/lib/supabase/realtime';
 import { updateOrderStatus } from '@/lib/supabase/realtime';
 import { useOrderStore } from '@/stores/orders';
 import type { Order } from '@/types';
@@ -45,23 +44,6 @@ export default function DeliveryApp() {
     setIsLoading(false);
     return () => clearInterval(interval);
   }, []);
-
-  // Real-time updates
-  useRealtimeOrders(({ eventType, new: newOrder }) => {
-    if (eventType === 'INSERT') {
-      setOrders((prev) => [newOrder, ...prev]);
-    }
-    if (eventType === 'UPDATE') {
-      setOrders((prev) => {
-        const updated = prev.map((o) => (o.id === newOrder.id ? newOrder : o));
-        // Remove delivered orders
-        if (newOrder.status === 'delivered') {
-          return updated.filter((o) => o.id !== newOrder.id);
-        }
-        return updated;
-      });
-    }
-  });
 
   const handleAcceptOrder = async (order: Order) => {
     try {
