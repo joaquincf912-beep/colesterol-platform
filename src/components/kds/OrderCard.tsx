@@ -218,8 +218,7 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
             </button>
           )}
           {nextStatus && (
-            <motion.button
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={handleStatusUpdate}
               disabled={isUpdating}
               className={cn(
@@ -233,7 +232,7 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
               {nextStatus === 'on_the_way' && <Truck className="w-3.5 h-3.5" />}
               {nextStatus === 'delivered' && <Check className="w-3.5 h-3.5" />}
               {STATUS_LABELS[nextStatus]}
-            </motion.button>
+            </button>
           )}
         </div>
       </div>
