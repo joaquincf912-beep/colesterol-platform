@@ -25,6 +25,8 @@ export async function POST(request: NextRequest) {
     customer_name: body.customer_name || 'Cliente',
     customer_phone: body.customer_phone || '',
     customer_address: body.customer_address || null,
+    customer_lat: body.customer_lat || null,
+    customer_lng: body.customer_lng || null,
     customer_notes: body.customer_notes || null,
     items: body.items || [],
     subtotal: body.subtotal || 0,

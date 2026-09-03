@@ -100,7 +100,7 @@ export default function DeliveryApp() {
                     <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
                   </a>
                   {o.customer_address && o.customer_address !== 'En local' && (
-                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.customer_address)}`} target="_blank" className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-500/15 text-blue-400 text-xs font-medium">
+                    <a href={(o as any).customer_lat ? `https://www.google.com/maps/dir/?api=1&destination=${(o as any).customer_lat},${(o as any).customer_lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.customer_address)}`} target="_blank" className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-500/15 text-blue-400 text-xs font-medium">
                       <MapPin className="w-3.5 h-3.5" /> GPS
                     </a>
                   )}
@@ -108,7 +108,7 @@ export default function DeliveryApp() {
 
                 {/* Direccion */}
                 {o.customer_address && o.customer_address !== 'En local' && (
-                  <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.customer_address)}`} target="_blank" className="flex items-center gap-2 p-2.5 rounded-xl bg-blue-500/5 border border-blue-500/15 mb-3">
+                  <a href={(o as any).customer_lat ? `https://www.google.com/maps/dir/?api=1&destination=${(o as any).customer_lat},${(o as any).customer_lng}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.customer_address)}`} target="_blank" className="flex items-center gap-2 p-2.5 rounded-xl bg-blue-500/5 border border-blue-500/15 mb-3">
                     <Navigation className="w-4 h-4 text-blue-400 flex-shrink-0" />
                     <span className="text-xs text-blue-300 truncate">{o.customer_address}</span>
                   </a>

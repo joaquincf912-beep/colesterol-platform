@@ -47,16 +47,26 @@ export default function Checkout({ isOpen, onClose, orderMode }: CheckoutProps) 
   const [locationGranted, setLocationGranted] = useState(false);
   const [customerCoords, setCustomerCoords] = useState<{ lat: number; lng: number } | null>(null);
 
-  // Request geolocation
+  // Request geolocation and auto-fill address
   const requestLocation = () => {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setCustomerCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        setCustomerCoords({ lat, lng });
         setLocationGranted(true);
+        // Reverse geocode to fill address
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.display_name && !address) {
+              setAddress(data.display_name.split(',').slice(0, 3).join(','));
+            }
+          })
+          .catch(() => {});
       },
       () => {
-        // User denied or error
         setLocationGranted(false);
       }
     );
@@ -109,7 +119,9 @@ export default function Checkout({ isOpen, onClose, orderMode }: CheckoutProps) 
         body: JSON.stringify({
           customer_name: name,
           customer_phone: phone,
-          customer_address: address || 'En local',
+          customer_address: address || (orderMode === 'dine_in' ? 'En local' : ''),
+          customer_lat: customerCoords?.lat || null,
+          customer_lng: customerCoords?.lng || null,
           items: orderItems,
           subtotal: total,
           delivery_fee: deliveryFee,
