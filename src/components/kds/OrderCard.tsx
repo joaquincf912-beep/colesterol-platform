@@ -74,13 +74,19 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
     if (!nextStatus || isUpdating) return;
     setIsUpdating(true);
     try {
-      const updated = await updateOrderStatus(order.id, nextStatus);
-      onStatusChange(updated);
-      toast.success(`Pedido #${order.order_number} → ${STATUS_LABELS[nextStatus]}`);
-    } catch {
-      // Demo mode — simulate update
+      // Update via API (cross-device sync)
+      await fetch(`/api/orders/${order.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: nextStatus }),
+      });
+      // Also update local store
+      updateOrderStatus(order.id, nextStatus);
       onStatusChange({ ...order, status: nextStatus });
-      toast.success(`Pedido #${order.order_number} → ${STATUS_LABELS[nextStatus]}`);
+      toast.success(`Pedido #${order.order_number} -> ${STATUS_LABELS[nextStatus]}`);
+    } catch {
+      onStatusChange({ ...order, status: nextStatus });
+      toast.success(`Pedido #${order.order_number} -> ${STATUS_LABELS[nextStatus]}`);
     } finally {
       setIsUpdating(false);
     }
@@ -90,8 +96,13 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
     if (isUpdating) return;
     setIsUpdating(true);
     try {
-      const updated = await updateOrderStatus(order.id, 'cancelled', { reason: 'Cancelado por cocina' });
-      onStatusChange(updated);
+      await fetch(`/api/orders/${order.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'cancelled', extra: { reason: 'Cancelado por cocina' } }),
+      });
+      updateOrderStatus(order.id, 'cancelled');
+      onStatusChange({ ...order, status: 'cancelled' });
     } catch {
       onStatusChange({ ...order, status: 'cancelled' });
     } finally {

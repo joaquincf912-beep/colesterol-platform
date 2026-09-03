@@ -9,6 +9,7 @@ import {
 import { useCart } from '@/stores/cart';
 import { formatPrice, copyToClipboard, PAGO_MOVIL_DATA, cn } from '@/lib/utils';
 import { broadcastNewOrder } from '@/lib/supabase/realtime';
+import { useOrderStore } from '@/stores/orders';
 import type { PaymentMethod } from '@/types';
 import { toast } from 'sonner';
 import OrderSuccess from './OrderSuccess';
@@ -83,7 +84,7 @@ export default function Checkout({ isOpen, onClose, orderMode }: CheckoutProps) 
 
   const handleSubmit = async () => {
     if (!name.trim() || !phone.trim()) {
-      toast.error('Completa nombre y teléfono');
+      toast.error('Completa nombre y telefono');
       return;
     }
 
@@ -101,17 +102,25 @@ export default function Checkout({ isOpen, onClose, orderMode }: CheckoutProps) 
         notes: item.notes,
       }));
 
-      const order = await broadcastNewOrder({
-        customer_name: name,
-        customer_phone: phone,
-        customer_address: address || 'En local',
-        items: orderItems as any,
-        subtotal: total,
-        delivery_fee: deliveryFee,
-        total: total + deliveryFee,
-        payment_method: paymentMethod,
-        status: 'received',
+      // Create order via API (cross-device sync)
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer_name: name,
+          customer_phone: phone,
+          customer_address: address || 'En local',
+          items: orderItems,
+          subtotal: total,
+          delivery_fee: deliveryFee,
+          total: total + deliveryFee,
+          payment_method: paymentMethod,
+        }),
       });
+      const order = await res.json();
+
+      // Also add to local store for instant UI update
+      useOrderStore.getState().addOrder(order);
 
       // Prepare success data
       setOrderData({

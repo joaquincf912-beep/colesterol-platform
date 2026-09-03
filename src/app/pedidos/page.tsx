@@ -52,34 +52,36 @@ export default function KitchenDisplay() {
     }
   }, [soundEnabled]);
 
-  // Subscribe to shared order store (real-time cross-tab sync)
+  // Poll API for orders (cross-device sync)
   useEffect(() => {
-    const store = useOrderStore.getState();
-    const activeOrders = store.getActiveOrders();
-    setOrders(activeOrders);
-    prevOrderCountRef.current = activeOrders.length;
-    setIsLoading(false);
-
-    // Poll store for changes every 500ms (BroadcastChannel updates the store)
-    const interval = setInterval(() => {
-      const current = useOrderStore.getState().getActiveOrders();
-      setOrders((prev) => {
-        const prevIds = prev.map((o) => o.id).join(',');
-        const currIds = current.map((o) => o.id).join(',');
-        if (prevIds !== currIds || prev.length !== current.length) {
-          // New order arrived
-          if (current.length > prev.length) playNotificationSound();
-          return current;
-        }
-        // Check for status changes
-        return current.map((o) => {
-          const old = prev.find((p) => p.id === o.id);
-          if (old && old.status !== o.status) return o;
-          return o;
+    const fetchOrders = async () => {
+      try {
+        const res = await fetch('/api/orders');
+        const allOrders = await res.json();
+        const active = allOrders.filter((o: any) => o.status !== 'delivered' && o.status !== 'cancelled');
+        
+        setOrders((prev) => {
+          const prevIds = prev.map((o) => o.id).join(',');
+          const currIds = active.map((o: any) => o.id).join(',');
+          if (prevIds !== currIds || prev.length !== active.length) {
+            if (active.length > prev.length) playNotificationSound();
+            return active;
+          }
+          return prev.map((o) => {
+            const updated = active.find((a: any) => a.id === o.id);
+            if (updated && updated.status !== o.status) return updated;
+            return o;
+          });
         });
-      });
-    }, 500);
+      } catch {
+        // Fallback to local store
+        const current = useOrderStore.getState().getActiveOrders();
+        setOrders(current);
+      }
+    };
 
+    fetchOrders();
+    const interval = setInterval(fetchOrders, 2000);
     return () => clearInterval(interval);
   }, []);
 

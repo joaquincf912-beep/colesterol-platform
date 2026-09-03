@@ -25,17 +25,23 @@ export default function DeliveryApp() {
   // Subscribe to shared order store (real-time cross-tab sync)
   useEffect(() => {
     const deliveryStatuses = ['ready', 'dispatched', 'on_the_way'];
-    const store = useOrderStore.getState();
-    const deliveryOrders = store.orders.filter((o) => deliveryStatuses.includes(o.status));
-    setOrders(deliveryOrders);
+    
+    const fetchOrders = async () => {
+      try {
+        const res = await fetch('/api/orders');
+        const allOrders = await res.json();
+        const filtered = allOrders.filter((o: any) => deliveryStatuses.includes(o.status));
+        setOrders(filtered);
+      } catch {
+        const store = useOrderStore.getState();
+        const filtered = store.orders.filter((o: any) => deliveryStatuses.includes(o.status));
+        setOrders(filtered);
+      }
+    };
+
+    fetchOrders();
+    const interval = setInterval(fetchOrders, 2000);
     setIsLoading(false);
-
-    // Poll store for changes every 500ms
-    const interval = setInterval(() => {
-      const current = useOrderStore.getState().orders.filter((o) => deliveryStatuses.includes(o.status));
-      setOrders(current);
-    }, 500);
-
     return () => clearInterval(interval);
   }, []);
 

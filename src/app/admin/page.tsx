@@ -199,20 +199,23 @@ export default function AdminDashboard() {
   );
   const avgOrderValue = todayOrders > 0 ? todayTotal / todayOrders : 0;
 
-  // Subscribe to shared order store (real-time cross-tab sync)
+  // Poll API for orders (cross-device sync)
   useEffect(() => {
-    const store = useOrderStore.getState();
-    setOrders([...store.orders]);
+    const fetchOrders = async () => {
+      try {
+        const res = await fetch('/api/orders');
+        const allOrders = await res.json();
+        setOrders(allOrders);
+      } catch {
+        const store = useOrderStore.getState();
+        setOrders([...store.orders]);
+      }
+    };
+
+    fetchOrders();
     setProducts(DEMO_PRODUCTS);
     setIsLoading(false);
-
-    // Poll store for changes every 500ms
-    const interval = setInterval(() => {
-      const currentOrders = [...useOrderStore.getState().orders];
-      setOrders(currentOrders);
-    }, 500);
-
-    return () => clearInterval(interval);
+    const interval = setInterval(fetchOrders, 2000);
   }, []);
 
   // Real-time updates
