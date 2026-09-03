@@ -6,7 +6,8 @@ import { requestNotificationPermission, sendLocalNotification } from '@/lib/noti
 // Play notification sound
 function playNotificationSound() {
   try {
-    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVggoKIeGBGPnuqy8+tfGNUXX6QjH1jR0N1pcjTtIVhTWl8kI+CY0k+cJ3M17B9XFNpf5KPg2hLPm6bydW0gF1Sa3yRkINpTD5tnsnXtYFdU2x8kZGEaUw+b53K2LaCXVRtfJKRhGlNPm+dyti2gV1UbXyTkYRpTT5wncrYtoJdVG58k5GEaU0+cJ3K2LaCXVRufJORhGlNPnCdyti2g11VbnyUkoRpTT5wncrYtoRdVW58lJKEaU0+cJ3K2LaFXVVufJSRhGlNPnCdyti2hV1WbnyUkoRpTT5wncrYtoZdV298lZKEaU0+cJ3K2LaGXVdvfJWT', { volume: 0.5 });
+    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVggoKIeGBGPnuqy8+tfGNUXX6QjH1jR0N1pcjTtIVhTWl8kI+CY0k+cJ3M17B9XFNpf5KPg2hLPm6bydW0gF1Sa3yRkINpTD5tnsnXtYFdU2x8kZGEaUw+b53K2LaCXVRtfJKRhGlNPm+dyti2gV1UbXyTkYRpTT5wncrYtoJdVG58k5GEaU0+cJ3K2LaCXVRufJORhGlNPnCdyti2g11VbnyUkoRpTT5wncrYtoRdVW58lJKEaU0+cJ3K2LaFXVVufJSRhGlNPnCdyti2hV1WbnyUkoRpTT5wncrYtoZdV298lZKEaU0+cJ3K2LaGXVdvfJWT');
+    audio.volume = 0.5;
     audio.play().catch(() => {});
   } catch {}
 }

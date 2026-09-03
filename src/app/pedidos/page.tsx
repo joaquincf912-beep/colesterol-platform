@@ -1,20 +1,17 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import dynamic from 'next/dynamic';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import {
   ChefHat, Bell, RefreshCw, LayoutGrid, List,
   Volume2, VolumeX, Filter
 } from 'lucide-react';
-import { getSupabaseClient } from '@/lib/supabase/client';
 import { useOrderStore } from '@/stores/orders';
 import type { Order, OrderStatus } from '@/types';
 import { STATUS_LABELS } from '@/types';
-const OrderCard = dynamic(() => import('@/components/kds/OrderCard'), { ssr: false });
+import OrderCard from '@/components/kds/OrderCard';
 import { cn } from '@/lib/utils';
 import { useNotifications } from '@/hooks/useNotifications';
-import { DEMO_ORDERS } from '@/lib/demo-orders';
 
 type ViewMode = 'grid' | 'list';
 type StatusFilter = OrderStatus | 'all';
