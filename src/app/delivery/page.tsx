@@ -60,7 +60,7 @@ export default function DeliveryApp() {
     }
   };
 
-  const pendingOrders = orders.filter((o) => o.status === 'ready');
+  const pendingOrders = orders.filter((o) => o.status === 'ready' || o.status === 'received' || o.status === 'preparing');
   const activeOrders = orders.filter((o) => o.status === 'dispatched' || o.status === 'on_the_way');
   const deliveredOrders = orders.filter((o) => o.status === 'delivered');
 
