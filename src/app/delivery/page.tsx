@@ -150,7 +150,18 @@ export default function DeliveryApp() {
           <div className="bg-[#1C1C1E] rounded-t-3xl w-full max-w-lg p-6" onClick={(e) => e.stopPropagation()}>
             <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4" />
             <h3 className="text-lg font-bold text-white mb-2">Pedido #{selectedOrder.order_number}</h3>
-            <p className="text-sm text-white/40 mb-4">{selectedOrder.customer_name} — {selectedOrder.customer_phone}</p>
+            <p className="text-sm text-white/40 mb-2">{selectedOrder.customer_name} — {selectedOrder.customer_phone}</p>
+            {selectedOrder.customer_address && selectedOrder.customer_address !== 'En local' && (
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedOrder.customer_address)}`}
+                target="_blank"
+                className="flex items-center gap-2 mb-4 p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20"
+              >
+                <MapPin className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span className="text-xs text-blue-300 flex-1">{selectedOrder.customer_address}</span>
+                <Navigation className="w-3.5 h-3.5 text-blue-400 flex-shrink-0" />
+              </a>
+            )}
             <div className="space-y-2 mb-4">
               {selectedOrder.items.map((item, i) => (
                 <div key={i} className="flex justify-between text-sm">
@@ -235,10 +246,44 @@ function OrderCard({ order, onAccept, onDeliver, onSelect, activeTab }: {
           </span>
         </div>
 
-        <p className="text-sm text-white/50 mb-1">{order.customer_name}</p>
-        <p className="text-xs text-white/25 mb-3">{order.customer_address || 'Sin direccion'}</p>
+        <p className="text-sm text-white/60 mb-1">{order.customer_name}</p>
 
-        <div className="space-y-1">
+        {/* Telefono y acciones rapidas */}
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-xs text-white/40">{order.customer_phone}</span>
+          <a
+            href={`tel:${order.customer_phone}`}
+            onClick={(e) => e.stopPropagation()}
+            className="w-7 h-7 rounded-full bg-[#32D74B]/15 flex items-center justify-center"
+          >
+            <Phone className="w-3.5 h-3.5 text-[#32D74B]" />
+          </a>
+          <a
+            href={`https://wa.me/${order.customer_phone?.replace(/[^0-9]/g, '')}`}
+            target="_blank"
+            onClick={(e) => e.stopPropagation()}
+            className="w-7 h-7 rounded-full bg-[#25D366]/15 flex items-center justify-center"
+          >
+            <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+          </a>
+        </div>
+
+        {/* Direccion GPS */}
+        {order.customer_address && order.customer_address !== 'En local' && (
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.customer_address)}`}
+            target="_blank"
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2 mb-3 p-2 rounded-xl bg-blue-500/10 border border-blue-500/20"
+          >
+            <MapPin className="w-4 h-4 text-blue-400 flex-shrink-0" />
+            <span className="text-xs text-blue-300 truncate flex-1">{order.customer_address}</span>
+            <Navigation className="w-3 h-3 text-blue-400 flex-shrink-0" />
+          </a>
+        )}
+
+        {/* Items */}
+        <div className="space-y-1 mb-3">
           {order.items.map((item, i) => (
             <div key={i} className="flex justify-between text-xs">
               <span className="text-white/40">{item.quantity}x {item.name}</span>
@@ -247,7 +292,8 @@ function OrderCard({ order, onAccept, onDeliver, onSelect, activeTab }: {
           ))}
         </div>
 
-        <div className="flex justify-between items-center mt-3 pt-3 border-t border-white/5">
+        {/* Total y acciones */}
+        <div className="flex justify-between items-center pt-3 border-t border-white/5">
           <span className="text-sm font-bold text-[#FFC700]">${order.total.toFixed(2)}</span>
 
           {activeTab === 'pending' && (
