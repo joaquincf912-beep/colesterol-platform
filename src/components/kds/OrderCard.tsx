@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Clock, ChefHat, Check, Truck, X } from 'lucide-react';
 import type { Order, OrderStatus } from '@/types';
@@ -113,14 +112,9 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
   const StatusIcon = STATUS_ICONS[order.status];
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.92, y: 16 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.92, y: -16 }}
-      transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+    <div
       className={cn(
-        'rounded-[16px] overflow-hidden border border-white/[0.06]',
+        'rounded-[16px] overflow-hidden border border-white/[0.06] animate-fade-in',
         urgencyClass
       )}
       style={{
@@ -243,6 +237,6 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
