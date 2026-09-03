@@ -151,7 +151,7 @@ export default function WelcomeScreen({ onSelect }: WelcomeScreenProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '584141234567'}?text=${encodeURIComponent('¡Hola! Tengo una pregunta sobre el menú')}`}
+        href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '584225604660'}?text=${encodeURIComponent('¡Hola! Tengo una pregunta sobre el menú')}`}
         target="_blank"
         rel="noopener noreferrer"
         className="w-full max-w-sm mt-8 relative z-10 group"

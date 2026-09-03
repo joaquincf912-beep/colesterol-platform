@@ -1,6 +1,6 @@
 import type { CartItem } from '@/types';
 
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '584141234567';
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '584225604660';
 
 /**
  * Generate a pre-rendered WhatsApp message based on cart contents.

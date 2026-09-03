@@ -2,7 +2,6 @@
 
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { motion } from 'framer-motion';
 import { Eye, EyeOff, Loader2, Lock, Mail, Shield, ChefHat, Truck } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { cn } from '@/lib/utils';
@@ -84,12 +83,7 @@ function LoginContent() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#FFC700]/[0.02] rounded-full blur-[100px]" />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-sm relative z-10"
-      >
+      <div className="w-full max-w-sm relative z-10 animate-fade-in">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 rounded-full bg-[#FFC700] flex items-center justify-center mx-auto mb-4 shadow-[0_0_40px_rgba(255,199,0,0.2)]">
@@ -102,13 +96,9 @@ function LoginContent() {
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-3">
           {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-red-500/10 border border-red-500/20 rounded-2xl p-3 text-center"
-            >
+            <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-3 text-center animate-fade-in">
               <p className="text-xs text-red-400">{error}</p>
-            </motion.div>
+            </div>
           )}
 
           <div className="relative">
@@ -191,7 +181,7 @@ function LoginContent() {
             );
           })}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

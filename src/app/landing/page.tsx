@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+
 import {
   Smartphone, Monitor, Zap, Shield, BarChart3, Truck,
   ChefHat, Clock, Wifi, Globe, MessageCircle, Check,
@@ -147,10 +147,7 @@ export default function LandingPage() {
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          <div
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFC700]/10 border border-[#FFC700]/20 text-[#FFC700] text-xs font-medium mb-6">
               <Zap className="w-3 h-3" />
@@ -183,13 +180,10 @@ export default function LandingPage() {
                 Ver Precios
               </a>
             </div>
-          </motion.div>
+          </div>
 
           {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+          <div
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16"
           >
             {STATS.map((stat, i) => (
@@ -198,7 +192,7 @@ export default function LandingPage() {
                 <p className="text-[11px] text-white/30 mt-1">{stat.label}</p>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -215,12 +209,8 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map((feature, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
                 className="bg-white/[0.02] border border-white/[0.04] rounded-2xl p-6 hover:bg-white/[0.03] transition-all group"
               >
                 <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center mb-4', feature.bgColor)}>
@@ -228,7 +218,7 @@ export default function LandingPage() {
                 </div>
                 <h3 className="text-sm font-bold text-white mb-2 group-hover:text-[#FFC700] transition-colors">{feature.title}</h3>
                 <p className="text-xs text-white/30 leading-relaxed">{feature.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -362,12 +352,8 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {PRICING.map((plan, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
                 className={cn(
                   'rounded-3xl p-6 border transition-all',
                   plan.highlighted
@@ -411,7 +397,7 @@ export default function LandingPage() {
                 >
                   Empezar ahora
                 </a>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -420,10 +406,7 @@ export default function LandingPage() {
       {/* CTA */}
       <section className="py-20 px-5">
         <div className="max-w-3xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+          <div
           >
             <h2 className="text-3xl md:text-4xl font-black mb-4">
               Tu restaurante merece
@@ -442,7 +425,7 @@ export default function LandingPage() {
               <MessageCircle className="w-4 h-4" />
               Solicitar Demo Gratis
             </a>
-          </motion.div>
+          </div>
         </div>
       </section>
 
