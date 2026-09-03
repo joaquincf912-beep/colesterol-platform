@@ -122,6 +122,8 @@ export async function broadcastNewOrder(orderData: Record<string, unknown>) {
     customer_name: (orderData.customer_name as string) || 'Cliente',
     customer_phone: (orderData.customer_phone as string) || '',
     customer_address: (orderData.customer_address as string) || null,
+    customer_lat: (orderData.customer_lat as number) || null,
+    customer_lng: (orderData.customer_lng as number) || null,
     customer_notes: (orderData.customer_notes as string) || null,
     items: (orderData.items as any) || [],
     subtotal: (orderData.subtotal as number) || 0,

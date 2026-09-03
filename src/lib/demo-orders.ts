@@ -10,6 +10,8 @@ export const DEMO_ORDERS: Order[] = [
     order_number: 1001,
     customer_name: 'Carlos Mendoza',
     customer_phone: '+58 414 123 4567',
+    customer_lat: null,
+    customer_lng: null,
     customer_address: 'Av. Principal, Caracas',
     customer_notes: 'Sin cebolla por favor',
     items: [
@@ -57,6 +59,8 @@ export const DEMO_ORDERS: Order[] = [
     order_number: 1002,
     customer_name: 'María González',
     customer_phone: '+58 412 987 6543',
+    customer_lat: null,
+    customer_lng: null,
     customer_address: 'Urb. Las Mercedes, Caracas',
     customer_notes: '',
     items: [
@@ -104,6 +108,8 @@ export const DEMO_ORDERS: Order[] = [
     order_number: 1003,
     customer_name: 'Andrés López',
     customer_phone: '+58 416 555 1234',
+    customer_lat: null,
+    customer_lng: null,
     customer_address: 'Miraflores, Caracas',
     customer_notes: 'Apartamento 4B, timbre rojo',
     items: [
@@ -141,6 +147,8 @@ export const DEMO_ORDERS: Order[] = [
     order_number: 1004,
     customer_name: 'Laura Fernández',
     customer_phone: '+58 424 888 9999',
+    customer_lat: null,
+    customer_lng: null,
     customer_address: 'Los Palos Grandes, Caracas',
     customer_notes: '',
     items: [
@@ -188,6 +196,8 @@ export const DEMO_ORDERS: Order[] = [
     order_number: 1005,
     customer_name: 'Pedro Ramírez',
     customer_phone: '+58 414 777 3333',
+    customer_lat: null,
+    customer_lng: null,
     customer_address: 'Altamira, Caracas',
     customer_notes: '',
     items: [
@@ -235,6 +245,8 @@ export const DEMO_ORDERS: Order[] = [
     order_number: 1006,
     customer_name: 'Sofía Torres',
     customer_phone: '+58 412 111 2222',
+    customer_lat: null,
+    customer_lng: null,
     customer_address: 'Chacao, Caracas',
     customer_notes: 'Timbre 3',
     items: [

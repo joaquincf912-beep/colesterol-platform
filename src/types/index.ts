@@ -83,6 +83,8 @@ export interface Order {
   customer_name: string;
   customer_phone: string;
   customer_address: string | null;
+  customer_lat: number | null;
+  customer_lng: number | null;
   customer_notes: string | null;
   items: OrderItem[];
   subtotal: number;
