@@ -234,87 +234,119 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Demo Preview */}
+      {/* Demo Live */}
       <section id="demo" className="py-20 px-5">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-[11px] text-[#FFC700] uppercase tracking-wider font-medium mb-3">Demo</p>
-            <h2 className="text-3xl md:text-4xl font-black">Mira como funciona</h2>
+            <p className="text-[11px] text-[#FFC700] uppercase tracking-wider font-medium mb-3">Demo Interactivo</p>
+            <h2 className="text-3xl md:text-4xl font-black">Prueba el sistema completo</h2>
+            <p className="text-sm text-white/30 mt-3 max-w-lg mx-auto">
+              Interactua directamente con cada modulo. Haz un pedido, revisalo en cocina, sigue el reparto.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Menu Preview */}
-            <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5">
-              <div className="p-4 border-b border-white/5 flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                <span className="text-[10px] text-white/20 ml-2">app.traccionweb.com</span>
-              </div>
-              <div className="p-5 space-y-3">
-                <div className="h-3 w-32 bg-[#FFC700]/20 rounded-full" />
-                <div className="grid grid-cols-2 gap-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="aspect-square bg-white/[0.03] rounded-2xl border border-white/[0.04]" />
-                  ))}
-                </div>
-              </div>
+          {/* Menu Demo - Full Width */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-2 h-2 rounded-full bg-[#FFC700]" />
+              <span className="text-sm font-bold text-white">Menu del Cliente</span>
+              <span className="text-[10px] text-white/20">app.traccionweb.com</span>
             </div>
-
-            {/* KDS Preview */}
-            <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5">
-              <div className="p-4 border-b border-white/5 flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                <span className="text-[10px] text-white/20 ml-2">app.traccionweb.com/pedidos</span>
-              </div>
-              <div className="p-5 space-y-3">
-                <div className="h-3 w-24 bg-orange-400/20 rounded-full" />
-                <div className="grid grid-cols-2 gap-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="h-24 bg-white/[0.03] rounded-2xl border border-white/[0.04]" />
-                  ))}
-                </div>
-              </div>
+            <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5" style={{ height: 500 }}>
+              <iframe
+                src="https://app.traccionweb.com"
+                className="w-full h-full border-0"
+                loading="lazy"
+                title="Menu Demo"
+              />
             </div>
           </div>
 
-          <div className="text-center mt-8">
-            <div className="flex flex-wrap justify-center gap-3">
-              <a
-                href="https://app.traccionweb.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#FFC700] text-black text-sm font-semibold hover:bg-[#FFD633] transition-all active:scale-[0.98]"
-              >
-                Ver Menu <ArrowRight className="w-4 h-4" />
-              </a>
-              <a
-                href="https://app.traccionweb.com/pedidos"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
-              >
-                Ver Cocina (KDS) <ArrowRight className="w-4 h-4" />
-              </a>
-              <a
-                href="https://app.traccionweb.com/delivery"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
-              >
-                Ver Reparto <ArrowRight className="w-4 h-4" />
-              </a>
-              <a
-                href="https://app.traccionweb.com/admin"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
-              >
-                Ver Admin <ArrowRight className="w-4 h-4" />
-              </a>
+          {/* KDS + Delivery + Admin - 3 columns */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            {/* KDS */}
+            <div>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-2 h-2 rounded-full bg-orange-400" />
+                <span className="text-sm font-bold text-white">Cocina (KDS)</span>
+              </div>
+              <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5" style={{ height: 350 }}>
+                <iframe
+                  src="https://app.traccionweb.com/pedidos"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  title="KDS Demo"
+                />
+              </div>
             </div>
+
+            {/* Delivery */}
+            <div>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-2 h-2 rounded-full bg-blue-400" />
+                <span className="text-sm font-bold text-white">Reparto</span>
+              </div>
+              <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5" style={{ height: 350 }}>
+                <iframe
+                  src="https://app.traccionweb.com/delivery"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  title="Delivery Demo"
+                />
+              </div>
+            </div>
+
+            {/* Admin */}
+            <div>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-2 h-2 rounded-full bg-green-400" />
+                <span className="text-sm font-bold text-white">Admin Dashboard</span>
+              </div>
+              <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5" style={{ height: 350 }}>
+                <iframe
+                  src="https://app.traccionweb.com/admin"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  title="Admin Demo"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Open Full Screen Buttons */}
+          <div className="flex flex-wrap justify-center gap-3">
+            <a
+              href="https://app.traccionweb.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#FFC700] text-black text-sm font-semibold hover:bg-[#FFD633] transition-all active:scale-[0.98]"
+            >
+              Abrir Menu Completo <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href="https://app.traccionweb.com/pedidos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
+            >
+              Abrir Cocina <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href="https://app.traccionweb.com/delivery"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
+            >
+              Abrir Reparto <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href="https://app.traccionweb.com/admin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
+            >
+              Abrir Admin <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
