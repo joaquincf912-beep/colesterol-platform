@@ -35,6 +35,17 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark">
       <body className="min-h-screen bg-black text-white antialiased">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                  navigator.serviceWorker.register('/sw.js').catch(() => {});
+                });
+              }
+            `,
+          }}
+        />
         <AuthProvider>
           {children}
         </AuthProvider>

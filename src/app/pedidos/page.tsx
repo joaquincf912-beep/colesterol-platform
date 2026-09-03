@@ -14,6 +14,7 @@ import type { Order, OrderStatus } from '@/types';
 import { STATUS_LABELS } from '@/types';
 const OrderCard = dynamic(() => import('@/components/kds/OrderCard'), { ssr: false });
 import { cn } from '@/lib/utils';
+import { useNotifications } from '@/hooks/useNotifications';
 import { DEMO_ORDERS } from '@/lib/demo-orders';
 
 type ViewMode = 'grid' | 'list';
@@ -27,6 +28,7 @@ export default function KitchenDisplay() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const prevOrderCountRef = useRef(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { checkNewOrders } = useNotifications({ enabled: true, soundEnabled });
 
   // Play notification sound on new orders
   const playNotificationSound = useCallback(() => {
@@ -61,11 +63,13 @@ export default function KitchenDisplay() {
         const allOrders = await res.json();
         const active = allOrders.filter((o: any) => o.status !== 'delivered' && o.status !== 'cancelled');
         
+        // Check for new orders and notify
+        checkNewOrders(active);
+
         setOrders((prev) => {
           const prevIds = prev.map((o) => o.id).join(',');
           const currIds = active.map((o: any) => o.id).join(',');
           if (prevIds !== currIds || prev.length !== active.length) {
-            if (active.length > prev.length) playNotificationSound();
             return active;
           }
           return prev.map((o) => {
@@ -145,6 +149,20 @@ export default function KitchenDisplay() {
             </div>
 
             <div className="flex items-center gap-2">
+              {/* Notification bell */}
+              <button
+                onClick={() => {
+                  if ('Notification' in window && Notification.permission !== 'granted') {
+                    Notification.requestPermission();
+                  }
+                }}
+                className="btn-icon relative"
+                title="Activar notificaciones"
+              >
+                <Bell className="w-4 h-4 text-white/60" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#32D74B] rounded-full" />
+              </button>
+
               {/* Sound toggle */}
               <button
                 onClick={() => setSoundEnabled(!soundEnabled)}
