@@ -130,7 +130,7 @@ export default function LandingPage() {
             <a href="#demo" className="hover:text-white/70 transition-colors">Demo</a>
           </div>
           <a
-            href="https://wa.me/584141234567?text=Hola,%20estoy%20interesado%20en%20TraccionWeb%20App"
+            href="https://wa.me/584225604660?text=Hola,%20estoy%20interesado%20en%20TraccionWeb%20App"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 rounded-full bg-[#FFC700] text-black text-xs font-semibold hover:bg-[#FFD633] transition-colors"
@@ -399,7 +399,7 @@ export default function LandingPage() {
                   ))}
                 </ul>
                 <a
-                  href={`https://wa.me/584141234567?text=Hola,%20estoy%20interesado%20en%20el%20plan%20${plan.name}`}
+                  href={`https://wa.me/584225604660?text=Hola,%20estoy%20interesado%20en%20el%20plan%20${plan.name}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(
@@ -434,7 +434,7 @@ export default function LandingPage() {
               Unete a los restaurantes que ya estan vendiendo mas con tecnología de clase mundial.
             </p>
             <a
-              href="https://wa.me/584141234567?text=Hola,%20quiero%20una%20demo%20de%20TraccionWeb%20App"
+              href="https://wa.me/584225604660?text=Hola,%20quiero%20una%20demo%20de%20TraccionWeb%20App"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-[#25D366] text-white font-semibold text-sm hover:bg-[#20BD5A] transition-all active:scale-[0.98]"
