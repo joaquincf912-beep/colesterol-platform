@@ -1,51 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { Order, OrderStatus } from '@/types';
-
-const STATUS_LABELS: Record<OrderStatus, string> = {
-  received: 'Recibido',
-  preparing: 'Cocinando',
-  ready: 'Listo',
-  dispatched: 'Despachado',
-  on_the_way: 'En Ruta',
-  delivered: 'Entregado',
-  cancelled: 'Cancelado',
-};
-
-const STATUS_FLOW: Record<OrderStatus, OrderStatus | null> = {
-  received: 'preparing',
-  preparing: 'ready',
-  ready: 'dispatched',
-  dispatched: 'on_the_way',
-  on_the_way: 'delivered',
-  delivered: null,
-  cancelled: null,
-};
-
-const STATUS_BG: Record<OrderStatus, string> = {
-  received: 'rgba(255,255,255,0.1)',
-  preparing: 'rgba(255,199,0,0.15)',
-  ready: 'rgba(50,215,75,0.15)',
-  dispatched: 'rgba(59,130,246,0.15)',
-  on_the_way: 'rgba(168,85,247,0.15)',
-  delivered: 'rgba(50,215,75,0.15)',
-  cancelled: 'rgba(255,69,58,0.15)',
-};
-
-const STATUS_TEXT: Record<OrderStatus, string> = {
-  received: 'color: #fff',
-  preparing: 'color: #FFC700',
-  ready: 'color: #32D74B',
-  dispatched: 'color: #3B82F6',
-  on_the_way: 'color: #A855F7',
-  delivered: 'color: #32D74B',
-  cancelled: 'color: #FF453A',
-};
 
 interface OrderCardProps {
-  order: Order;
-  onStatusChange: (order: Order) => void;
+  order: any;
+  onStatusChange: (order: any) => void;
 }
 
 export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
@@ -62,19 +21,39 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
     return () => clearInterval(interval);
   }, [order.created_at]);
 
-  const nextStatus = STATUS_FLOW[order.status];
+  const statusFlow: Record<string, string | null> = {
+    received: 'preparing',
+    preparing: 'ready',
+    ready: 'dispatched',
+    dispatched: 'on_the_way',
+    on_the_way: 'delivered',
+    delivered: null,
+    cancelled: null,
+  };
+
+  const statusLabels: Record<string, string> = {
+    received: 'Recibido',
+    preparing: 'Cocinando',
+    ready: 'Listo',
+    dispatched: 'Despachado',
+    on_the_way: 'En Ruta',
+    delivered: 'Entregado',
+    cancelled: 'Cancelado',
+  };
+
+  const nextStatus = statusFlow[order.status] || null;
 
   const handleNext = async () => {
     if (!nextStatus || isUpdating) return;
     setIsUpdating(true);
     try {
-      await fetch(`/api/orders/${order.id}`, {
+      await fetch('/api/orders/' + order.id, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: nextStatus }),
       });
       onStatusChange({ ...order, status: nextStatus });
-    } catch {
+    } catch (e) {
       onStatusChange({ ...order, status: nextStatus });
     } finally {
       setIsUpdating(false);
@@ -85,53 +64,81 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
     if (isUpdating) return;
     setIsUpdating(true);
     try {
-      await fetch(`/api/orders/${order.id}`, {
+      await fetch('/api/orders/' + order.id, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'cancelled' }),
       });
       onStatusChange({ ...order, status: 'cancelled' });
-    } catch {
+    } catch (e) {
       onStatusChange({ ...order, status: 'cancelled' });
     } finally {
       setIsUpdating(false);
     }
   };
 
+  const bgColor = order.status === 'preparing' ? 'rgba(255,199,0,0.15)' :
+                  order.status === 'ready' ? 'rgba(50,215,75,0.15)' :
+                  order.status === 'cancelled' ? 'rgba(255,69,58,0.15)' :
+                  'rgba(255,255,255,0.1)';
+
+  const textColor = order.status === 'preparing' ? '#FFC700' :
+                    order.status === 'ready' ? '#32D74B' :
+                    order.status === 'cancelled' ? '#FF453A' :
+                    '#FFFFFF';
+
+  const paymentLabel = order.payment_method === 'cash_usd' ? 'Efectivo USD' :
+                       order.payment_method === 'cash_ves' ? 'Efectivo VES' :
+                       order.payment_method === 'pago_movil' ? 'Pago Movil' :
+                       order.payment_method === 'zelle' ? 'Zelle' :
+                       order.payment_method === 'binance' ? 'Binance' :
+                       order.payment_method || 'Efectivo';
+
+  const nextBtnBg = nextStatus === 'preparing' ? '#FFC700' :
+                    nextStatus === 'ready' ? '#32D74B' :
+                    nextStatus === 'dispatched' ? '#3B82F6' :
+                    nextStatus === 'on_the_way' ? '#A855F7' :
+                    '#32D74B';
+
+  const nextBtnText = ['preparing', 'ready', 'delivered'].includes(nextStatus || '') ? '#000' : '#FFF';
+
+  const items = Array.isArray(order.items) ? order.items : [];
+
   return (
     <div style={{
       borderRadius: 16,
       overflow: 'hidden',
-      border: '1px solid rgba(255,255,255,0.06)',
-      background: 'rgba(28,28,30,0.6)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      background: 'rgba(28,28,30,0.8)',
       animation: 'fadeIn 0.3s ease-out',
+      minHeight: 120,
     }}>
       {/* Header */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '12px 16px',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        padding: '14px 16px',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 18, fontWeight: 700, color: '#fff' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: 20, fontWeight: 800, color: '#FFFFFF' }}>
             #{order.order_number}
           </span>
           <span style={{
-            padding: '2px 10px',
+            padding: '3px 12px',
             borderRadius: 99,
             fontSize: 11,
-            fontWeight: 600,
-            ...STATUS_TEXT[order.status],
-            background: STATUS_BG[order.status],
+            fontWeight: 700,
+            background: bgColor,
+            color: textColor,
           }}>
-            {STATUS_LABELS[order.status]}
+            {statusLabels[order.status] || order.status}
           </span>
         </div>
         <span style={{
-          fontSize: 13,
-          fontWeight: 700,
+          fontSize: 14,
+          fontWeight: 800,
           fontFamily: 'monospace',
           color: elapsed < 10 ? 'rgba(255,255,255,0.5)' : elapsed < 15 ? '#FFC700' : '#FF453A',
         }}>
@@ -140,42 +147,43 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
       </div>
 
       {/* Customer */}
-      <div style={{ padding: '8px 16px', fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
-        <span style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>{order.customer_name}</span>
-        <span style={{ margin: '0 6px', opacity: 0.3 }}>·</span>
-        <span>{order.customer_phone}</span>
+      <div style={{ padding: '10px 16px', fontSize: 13 }}>
+        <div style={{ color: '#FFFFFF', fontWeight: 600 }}>{order.customer_name}</div>
+        <div style={{ color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{order.customer_phone}</div>
         {order.customer_address && order.customer_address !== 'En local' && (
-          <>
-            <span style={{ margin: '0 6px', opacity: 0.3 }}>·</span>
-            <span style={{ color: 'rgba(255,255,255,0.3)' }}>{order.customer_address}</span>
-          </>
+          <div style={{ color: 'rgba(255,255,255,0.35)', marginTop: 2, fontSize: 12 }}>
+            {order.customer_address}
+          </div>
         )}
       </div>
 
       {/* Items */}
-      <div style={{ padding: '8px 16px' }}>
-        {order.items.map((item, idx) => (
-          <div key={idx} style={{ marginBottom: 6 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-              <span style={{ fontSize: 14, color: '#fff', fontWeight: 500 }}>
+      <div style={{ padding: '8px 16px 12px' }}>
+        {items.map((item: any, idx: number) => (
+          <div key={idx} style={{ marginBottom: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 14, color: '#FFFFFF', fontWeight: 600 }}>
                 {item.quantity}x {item.name}
               </span>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', fontFamily: 'monospace', marginLeft: 8 }}>
-                ${item.total_price.toFixed(2)}
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace' }}>
+                ${Number(item.total_price).toFixed(2)}
               </span>
             </div>
             {item.removed_ingredients && item.removed_ingredients.length > 0 && (
-              <p style={{ fontSize: 10, color: 'rgba(255,69,58,0.6)', marginTop: 2, paddingLeft: 4 }}>
+              <div style={{ fontSize: 11, color: '#FF453A', marginTop: 2, opacity: 0.7 }}>
                 Sin: {item.removed_ingredients.join(', ')}
-              </p>
+              </div>
             )}
             {item.notes && (
-              <p style={{ fontSize: 10, color: 'rgba(255,199,0,0.6)', marginTop: 2, paddingLeft: 4 }}>
-                {item.notes}
-              </p>
+              <div style={{ fontSize: 11, color: '#FFC700', marginTop: 2, opacity: 0.7 }}>
+                Nota: {item.notes}
+              </div>
             )}
           </div>
         ))}
+        {items.length === 0 && (
+          <div style={{ color: 'rgba(255,255,255,0.2)', fontSize: 12 }}>Sin items</div>
+        )}
       </div>
 
       {/* Footer */}
@@ -183,25 +191,22 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '10px 16px',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
+        padding: '12px 16px',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{
             fontSize: 10,
-            color: 'rgba(255,255,255,0.3)',
-            background: 'rgba(255,255,255,0.04)',
-            padding: '2px 8px',
+            color: 'rgba(255,255,255,0.4)',
+            background: 'rgba(255,255,255,0.06)',
+            padding: '3px 10px',
             borderRadius: 99,
+            fontWeight: 500,
           }}>
-            {order.payment_method === 'cash_usd' ? 'Efectivo USD' :
-             order.payment_method === 'cash_ves' ? 'Efectivo VES' :
-             order.payment_method === 'pago_movil' ? 'Pago Movil' :
-             order.payment_method === 'zelle' ? 'Zelle' :
-             order.payment_method === 'binance' ? 'Binance' : order.payment_method}
+            {paymentLabel}
           </span>
-          <span style={{ fontSize: 15, fontWeight: 700, color: '#FFC700' }}>
-            ${order.total.toFixed(2)}
+          <span style={{ fontSize: 16, fontWeight: 800, color: '#FFC700' }}>
+            ${Number(order.total).toFixed(2)}
           </span>
         </div>
 
@@ -211,11 +216,11 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
               onClick={handleCancel}
               disabled={isUpdating}
               style={{
-                width: 32, height: 32, borderRadius: 99,
-                background: 'rgba(255,255,255,0.04)',
+                width: 34, height: 34, borderRadius: 99,
+                background: 'rgba(255,69,58,0.12)',
                 border: 'none', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 14, color: 'rgba(255,69,58,0.7)',
+                fontSize: 13, fontWeight: 700, color: '#FF453A',
               }}
             >
               X
@@ -227,17 +232,13 @@ export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
               disabled={isUpdating}
               style={{
                 display: 'flex', alignItems: 'center', gap: 6,
-                padding: '8px 16px', borderRadius: 99, border: 'none',
-                fontSize: 12, fontWeight: 600, cursor: 'pointer',
-                background: nextStatus === 'preparing' ? '#FFC700' :
-                            nextStatus === 'ready' ? '#32D74B' :
-                            nextStatus === 'dispatched' ? '#3B82F6' :
-                            nextStatus === 'on_the_way' ? '#A855F7' :
-                            '#32D74B',
-                color: ['preparing', 'ready', 'delivered'].includes(nextStatus) ? '#000' : '#fff',
+                padding: '10px 20px', borderRadius: 99, border: 'none',
+                fontSize: 13, fontWeight: 700, cursor: 'pointer',
+                background: nextBtnBg,
+                color: nextBtnText,
               }}
             >
-              {STATUS_LABELS[nextStatus]}
+              {statusLabels[nextStatus] || nextStatus}
             </button>
           )}
         </div>
