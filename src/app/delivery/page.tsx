@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import {
   Phone, MessageCircle, MapPin, Navigation, Check,

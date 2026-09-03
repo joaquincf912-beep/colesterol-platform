@@ -16,7 +16,11 @@ export async function PATCH(
   }
 
   const updated = updateOrderStatus(id, body.status as OrderStatus, body.extra);
-  return NextResponse.json(updated);
+  return NextResponse.json(updated, {
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  });
 }
 
 // GET /api/orders/[id] - Get single order
@@ -28,5 +32,9 @@ export async function GET(
   if (!order) {
     return NextResponse.json({ error: 'Order not found' }, { status: 404 });
   }
-  return NextResponse.json(order);
+  return NextResponse.json(order, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=1, stale-while-revalidate=2',
+    },
+  });
 }

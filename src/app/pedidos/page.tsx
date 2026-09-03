@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChefHat, Bell, RefreshCw, LayoutGrid, List,
@@ -11,7 +12,7 @@ import { useRealtimeOrders } from '@/lib/supabase/realtime';
 import { useOrderStore } from '@/stores/orders';
 import type { Order, OrderStatus } from '@/types';
 import { STATUS_LABELS } from '@/types';
-import OrderCard from '@/components/kds/OrderCard';
+const OrderCard = dynamic(() => import('@/components/kds/OrderCard'), { ssr: false });
 import { cn } from '@/lib/utils';
 import { DEMO_ORDERS } from '@/lib/demo-orders';
 

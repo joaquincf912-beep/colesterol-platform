@@ -2,9 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getOrders, addOrder, getNextOrderNumber } from '@/lib/order-store';
 import type { Order } from '@/types';
 
-// GET /api/orders - List all orders
+// GET /api/orders - List all orders (cached for 1s)
 export async function GET() {
-  return NextResponse.json(getOrders());
+  const orders = getOrders();
+  return NextResponse.json(orders, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=1, stale-while-revalidate=2',
+      'CDN-Cache-Control': 'public, s-maxage=1',
+    },
+  });
 }
 
 // POST /api/orders - Create new order
@@ -41,5 +47,9 @@ export async function POST(request: NextRequest) {
   };
 
   addOrder(order);
-  return NextResponse.json(order);
+  return NextResponse.json(order, {
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  });
 }

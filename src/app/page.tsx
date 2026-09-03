@@ -14,9 +14,9 @@ const ProductModal = dynamic(() => import('@/components/ui/ProductModal'), { ssr
 const CartDrawer = dynamic(() => import('@/components/ui/CartDrawer'), { ssr: false });
 const Checkout = dynamic(() => import('@/components/ui/Checkout'), { ssr: false });
 const UpsellModal = dynamic(() => import('@/components/ui/UpsellModal'), { ssr: false });
-import WelcomeScreen from '@/components/ui/WelcomeScreen';
-import NavigationRail from '@/components/menu/NavigationRail';
-import ProductCanvas from '@/components/menu/ProductCanvas';
+const WelcomeScreen = dynamic(() => import('@/components/ui/WelcomeScreen'), { ssr: false });
+const NavigationRail = dynamic(() => import('@/components/menu/NavigationRail'), { ssr: false });
+const ProductCanvas = dynamic(() => import('@/components/menu/ProductCanvas'), { ssr: false });
 import { DEMO_PRODUCTS } from '@/lib/demo-data';
 
 
