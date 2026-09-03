@@ -62,40 +62,46 @@ const STATS = [
 
 const PRICING = [
   {
-    name: 'Essential',
-    price: '$299',
+    name: 'Starter',
+    setup: '$30',
+    setupLabel: 'activacion unica',
+    price: '$15',
     period: '/mes',
     description: 'Para restaurantes que empiezan',
     features: [
       'Menu digital personalizado',
       'Checkout con WhatsApp',
-      'Hasta 50 productos',
-      'Soporte por email',
+      'Hasta 30 productos',
+      'Soporte por WhatsApp',
     ],
     highlighted: false,
   },
   {
-    name: 'Professional',
-    price: '$799',
+    name: 'Growth',
+    setup: '$50',
+    setupLabel: 'activacion unica',
+    price: '$35',
     period: '/mes',
-    description: 'Para restaurantes serios',
+    description: 'Para restaurantes en crecimiento',
     features: [
-      'Todo lo de Essential',
+      'Todo lo de Starter',
       'Kitchen Display System',
       'App de reparto (PWA)',
       'Dashboard con metricas',
-      'Multi-idioma',
+      'Multi-moneda (USD/VES)',
       'Soporte prioritario',
     ],
     highlighted: true,
   },
   {
     name: 'Enterprise',
-    price: '$1,999',
+    setup: '$100',
+    setupLabel: 'activacion unica',
+    price: '$79',
     period: '/mes',
     description: 'Para cadenas y franquicias',
     features: [
-      'Todo lo de Professional',
+      'Todo lo de Growth',
       'Multi-restaurante',
       'API personalizada',
       'Integracion con POS',
@@ -243,7 +249,7 @@ export default function LandingPage() {
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                <span className="text-[10px] text-white/20 ml-2">menu.colesterol.ve</span>
+                <span className="text-[10px] text-white/20 ml-2">app.traccionweb.com</span>
               </div>
               <div className="p-5 space-y-3">
                 <div className="h-3 w-32 bg-[#FFC700]/20 rounded-full" />
@@ -261,7 +267,7 @@ export default function LandingPage() {
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                <span className="text-[10px] text-white/20 ml-2">pedidos.colesterol.ve</span>
+                <span className="text-[10px] text-white/20 ml-2">app.traccionweb.com/pedidos</span>
               </div>
               <div className="p-5 space-y-3">
                 <div className="h-3 w-24 bg-orange-400/20 rounded-full" />
@@ -275,14 +281,40 @@ export default function LandingPage() {
           </div>
 
           <div className="text-center mt-8">
-            <a
-              href="http://localhost:3000"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
-            >
-              Abrir Demo Completo <ArrowRight className="w-4 h-4" />
-            </a>
+            <div className="flex flex-wrap justify-center gap-3">
+              <a
+                href="https://app.traccionweb.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#FFC700] text-black text-sm font-semibold hover:bg-[#FFD633] transition-all active:scale-[0.98]"
+              >
+                Ver Menu <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="https://app.traccionweb.com/pedidos"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
+              >
+                Ver Cocina (KDS) <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="https://app.traccionweb.com/delivery"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
+              >
+                Ver Reparto <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="https://app.traccionweb.com/admin"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/[0.04] text-white/60 text-sm font-medium hover:bg-white/[0.06] transition-all border border-white/[0.06]"
+              >
+                Ver Admin <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -318,10 +350,14 @@ export default function LandingPage() {
                 )}
                 <h3 className="text-lg font-bold text-white">{plan.name}</h3>
                 <p className="text-xs text-white/30 mt-1">{plan.description}</p>
-                <div className="flex items-baseline gap-1 mt-4 mb-6">
-                  <span className="text-3xl font-black text-white">{plan.price}</span>
-                  <span className="text-sm text-white/30">{plan.period}</span>
+                <div className="mt-4 mb-2">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-black text-white">{plan.price}</span>
+                    <span className="text-sm text-white/30">{plan.period}</span>
+                  </div>
+                  <p className="text-[10px] text-white/25 mt-1">+ {plan.setup} {plan.setupLabel}</p>
                 </div>
+                <div className="h-px bg-white/[0.04] my-4" />
                 <ul className="space-y-2.5 mb-6">
                   {plan.features.map((feat, j) => (
                     <li key={j} className="flex items-center gap-2 text-xs text-white/50">
