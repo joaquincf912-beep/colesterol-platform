@@ -1,20 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import dynamic from 'next/dynamic';
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import {
   Phone, MessageCircle, MapPin, Navigation, Check,
   ChevronRight, Package, Clock, Truck
 } from 'lucide-react';
-import { getSupabaseClient } from '@/lib/supabase/client';
-import { updateOrderStatus } from '@/lib/supabase/realtime';
 import { useOrderStore } from '@/stores/orders';
 import type { Order } from '@/types';
 import { STATUS_LABELS } from '@/types';
 import { formatTime, cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { DEMO_ORDERS } from '@/lib/demo-orders';
+
 
 export default function DeliveryApp() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -47,8 +43,12 @@ export default function DeliveryApp() {
 
   const handleAcceptOrder = async (order: Order) => {
     try {
-      const updated = await updateOrderStatus(order.id, 'on_the_way', { driver_id: 'current-driver-id' });
-      setOrders((prev) => prev.map((o) => (o.id === order.id ? updated : o)));
+      await fetch(`/api/orders/${order.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'on_the_way', extra: { driver_id: 'current-driver-id' } }),
+      });
+      setOrders((prev) => prev.map((o) => (o.id === order.id ? { ...o, status: 'on_the_way' as const } : o)));
       toast.success(`Pedido #${order.order_number} aceptado`);
     } catch {
       toast.error('Error al aceptar pedido');
@@ -57,10 +57,14 @@ export default function DeliveryApp() {
 
   const handleDeliverOrder = async (order: Order) => {
     try {
-      const updated = await updateOrderStatus(order.id, 'delivered');
+      await fetch(`/api/orders/${order.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'delivered' }),
+      });
       setOrders((prev) => prev.filter((o) => o.id !== order.id));
       setSelectedOrder(null);
-      toast.success(` Pedido #${order.order_number} entregado`);
+      toast.success(`Pedido #${order.order_number} entregado`);
     } catch {
       toast.error('Error al entregar pedido');
     }
