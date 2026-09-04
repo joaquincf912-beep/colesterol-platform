@@ -63,9 +63,9 @@ const STATS = [
 const PRICING = [
   {
     name: 'Starter',
-    setup: '$30',
+    setup: '$100',
     setupLabel: 'activacion unica',
-    price: '$15',
+    price: '$25',
     period: '/mes',
     description: 'Para restaurantes que empiezan',
     features: [
@@ -78,9 +78,9 @@ const PRICING = [
   },
   {
     name: 'Growth',
-    setup: '$50',
+    setup: '$150',
     setupLabel: 'activacion unica',
-    price: '$35',
+    price: '$38',
     period: '/mes',
     description: 'Para restaurantes en crecimiento',
     features: [
@@ -95,9 +95,9 @@ const PRICING = [
   },
   {
     name: 'Enterprise',
-    setup: '$100',
+    setup: '$300',
     setupLabel: 'activacion unica',
-    price: '$79',
+    price: '$42',
     period: '/mes',
     description: 'Para cadenas y franquicias',
     features: [
