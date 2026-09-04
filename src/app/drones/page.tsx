@@ -252,23 +252,21 @@ export default function DronesPage() {
             <p className="text-[11px] text-cyan-400 uppercase tracking-wider font-medium mb-3">Portfolio</p>
             <h2 className="text-3xl md:text-4xl font-black">Mira el resultado</h2>
             <p className="text-sm text-white/30 mt-3 max-w-lg mx-auto">
-              Ejemplo real de cobertura aerea con DJI Neo para un negocio o propiedad residencial.
+              Video de muestra para mostrar la calidad de imagen y colores del servicio.
             </p>
           </div>
 
           {/* Video Player */}
           <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5">
-            <div className="relative" style={{ paddingBottom: '56.25%' }}>
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/aH2BpfKE5FM?autoplay=0&mute=1&controls=1&rel=0&modestbranding=1"
-                title="Ejemplo de vuelo con DJI Neo - Drone para negocios"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-              />
-            </div>
+            <video
+              className="w-full aspect-video object-cover"
+              controls
+              preload="metadata"
+              poster=""
+            >
+              <source src="/drone-sample.MOV" type="video/quicktime" />
+              Tu navegador no soporta el elemento de video.
+            </video>
           </div>
 
           {/* Video Info */}
