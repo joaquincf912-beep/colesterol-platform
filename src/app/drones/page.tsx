@@ -38,8 +38,8 @@ const FEATURES = [
   },
   {
     icon: Battery,
-    title: 'Hasta 60 min',
-    description: 'Multiples baterias para cobertura completa de tu propiedad o evento.',
+    title: 'Cobertura Total',
+    description: 'Cobertura completa de tu propiedad o evento sin limites.',
     color: 'text-green-400',
     bgColor: 'bg-green-500/10',
   },
@@ -54,7 +54,7 @@ const FEATURES = [
 
 const STATS = [
   { value: '4K', label: 'Calidad de video' },
-  { value: '60min', label: 'Tiempo de vuelo' },
+  { value: '100%', label: 'Cobertura' },
   { value: '24h', label: 'Entrega rapida' },
   { value: '100%', label: 'Satisfaccion' },
 ];
@@ -74,7 +74,7 @@ const PLANS = [
     },
     withoutEditFeatures: [
       'Clips raw (brutos) en 4K',
-      'Hasta 15-20 min de vuelo (1 bateria)',
+      'Vuelo completo de cobertura',
       'Tomas fijas, panoramicas y barridos simples',
     ],
     withEditFeatures: [
@@ -99,7 +99,7 @@ const PLANS = [
     },
     withoutEditFeatures: [
       'Material grabado en 4K sin procesar',
-      'Hasta 40 min de vuelo (2-3 baterias)',
+      'Cobertura amplia de la locacion',
       'QuickShots, seguimiento y diversos angulos',
     ],
     withEditFeatures: [
@@ -125,7 +125,7 @@ const PLANS = [
     },
     withoutEditFeatures: [
       'Material raw organizado por carpetas/escenas',
-      'Hasta 60 min de vuelo en locacion',
+      'Cobertura total en locacion',
       'Tomas en exteriores e interiores',
     ],
     withEditFeatures: [
