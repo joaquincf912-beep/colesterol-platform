@@ -136,7 +136,7 @@ export default function NavigationRail({
 
         {/* WhatsApp */}
         <a
-          href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '583026456024'}?text=${encodeURIComponent(
+          href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573026456024'}?text=${encodeURIComponent(
             orderMode === 'delivery'
               ? '¡Hola! Quiero hacer un pedido a domicilio'
               : '¡Hola! Quiero hacer un pedido para comer en el local'

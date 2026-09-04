@@ -186,7 +186,7 @@ export default function OrderSuccess({
 
   const handleWhatsAppSupport = useCallback(() => {
     const message = `Hola, tengo una duda con mi pedido #${orderNumber} en TraccionWeb.`;
-    const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '583026456024';
+    const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '573026456024';
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
   }, [orderNumber]);
 
