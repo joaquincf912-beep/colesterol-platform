@@ -65,11 +65,11 @@ const PLANS = [
     subtitle: 'Toma Express',
     description: 'Ideal para redes sociales, propiedades pequenas o cobertura puntual.',
     withoutEdit: {
-      price: '$25',
+      price: '$50',
       label: 'Sin edicion',
     },
     withEdit: {
-      price: '$40',
+      price: '$80',
       label: 'Con edicion',
     },
     withoutEditFeatures: [
@@ -90,11 +90,11 @@ const PLANS = [
     subtitle: 'Cobertura Estandar',
     description: 'Perfecto para eventos pequenos, locales comerciales o contenido para marcas.',
     withoutEdit: {
-      price: '$45',
+      price: '$70',
       label: 'Sin edicion',
     },
     withEdit: {
-      price: '$70',
+      price: '$100',
       label: 'Con edicion',
     },
     withoutEditFeatures: [
@@ -116,11 +116,11 @@ const PLANS = [
     subtitle: 'Produccion Completa',
     description: 'Videos promocionales, bienes raices o eventos corporativos.',
     withoutEdit: {
-      price: '$75',
+      price: '$120',
       label: 'Sin edicion',
     },
     withEdit: {
-      price: '$120',
+      price: '$160',
       label: 'Con edicion',
     },
     withoutEditFeatures: [
