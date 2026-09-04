@@ -264,7 +264,7 @@ export default function DronesPage() {
               preload="metadata"
               poster=""
             >
-              <source src="/drone-sample.MOV" type="video/quicktime" />
+              <source src="/drone-sample.mp4" type="video/mp4" />
               Tu navegador no soporta el elemento de video.
             </video>
           </div>
