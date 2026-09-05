@@ -3,7 +3,7 @@
 import {
   Monitor, Eye, TrendingUp, Users, Zap, Globe,
   Check, ArrowRight, Star, MessageCircle, Clock,
-  BarChart3, Target, Smartphone, Wifi, Layout
+  BarChart3, Target, Smartphone, Wifi, Layout, Play
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -64,6 +64,24 @@ const LOCATIONS = [
   { name: 'Restaurantes', screens: '8 pantallas', reach: '8K personas/dia' },
   { name: 'Zonas de Comida Rapida', screens: '6 pantallas', reach: '12K personas/dia' },
   { name: 'Estaciones de Transporte', screens: '4 pantallas', reach: '20K personas/dia' },
+];
+
+const VIDEOS = [
+  {
+    title: '3D Billboard Showreel',
+    description: 'Billboards 3D anamorficos con efectos visuales impactantes que captan la atencion de miles.',
+    youtubeId: '76wI4jUKYqw',
+  },
+  {
+    title: 'Digital Signage Premium',
+    description: 'Pantallas digitales interactivas en centros comerciales y zonas de alto trafico.',
+    youtubeId: '4ZqZ821Ryv0',
+  },
+  {
+    title: 'LED Anamorphic Experience',
+    description: 'Publicidad en LED de alta definicion con efecto 3D sin gafas especiales.',
+    youtubeId: '_nQ-jyMabTw',
+  },
 ];
 
 const PLANS = [
@@ -217,6 +235,41 @@ export default function DOOHPage() {
                 </div>
                 <h3 className="text-sm font-bold text-white mb-2 group-hover:text-violet-400 transition-colors">{feature.title}</h3>
                 <p className="text-xs text-white/30 leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Video Showcase */}
+      <section id="portfolio" className="py-20 px-5">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-[11px] text-violet-400 uppercase tracking-wider font-medium mb-3">Portfolio</p>
+            <h2 className="text-3xl md:text-4xl font-black">Ejemplos de DOOH</h2>
+            <p className="text-sm text-white/30 mt-3 max-w-lg mx-auto">
+              Mira como se ven las campanas publicitarias en pantallas LED reales.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {VIDEOS.map((video, i) => (
+              <div key={i} className="bg-white/[0.02] border border-white/[0.04] rounded-3xl overflow-hidden hover:bg-white/[0.03] transition-all group">
+                <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=0&mute=1&controls=1&rel=0&modestbranding=1`}
+                    title={video.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-sm font-bold text-white mb-1 group-hover:text-violet-400 transition-colors">{video.title}</h3>
+                  <p className="text-[11px] text-white/30 leading-relaxed">{video.description}</p>
+                </div>
               </div>
             ))}
           </div>
