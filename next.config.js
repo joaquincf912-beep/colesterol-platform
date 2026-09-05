@@ -47,7 +47,6 @@ const nextConfig = {
       },
     ];
   },
-  // Tree shaking optimization
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -57,12 +56,6 @@ const nextConfig = {
         tls: false,
       };
     }
-    // Aggressive tree shaking
-    config.optimization = {
-      ...config.optimization,
-      usedExports: true,
-      sideEffects: false,
-    };
     return config;
   },
 };
