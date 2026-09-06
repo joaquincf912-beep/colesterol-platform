@@ -1,20 +1,20 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Publicidad DOOH | Pantallas Digitales LED — TraccionWeb',
-  description: 'Planes de publicidad en pantallas digitales DOOH. Desde $50/semana. Lleva tu marca a pantallas LED en centros comerciales, restaurantes y zonas de alto tráfico.',
-  keywords: ['DOOH', 'publicidad exterior digital', 'pantallas LED', 'publicidad en pantallas', 'TraccionWeb', 'digital out of home'],
+  title: 'Produccion de Video DOOH | TraccionWeb',
+  description: 'Producimos videos profesionales para pantallas DOOH, centros comerciales y espacios publicos. Desde $25/video. Calidad 4K, entrega en 24h.',
+  keywords: ['DOOH', 'produccion de video', 'video publicitario', 'pantallas digitales', 'TraccionWeb', 'digital out of home', 'video 4K'],
   openGraph: {
-    title: 'Planes de Publicidad DOOH — Pantallas Digitales LED',
-    description: 'Publicidad en pantallas digitales desde $50/semana. Lleva tu marca a pantallas LED en los mejores locations de la ciudad. Métricas en tiempo real.',
+    title: 'Produccion de Video DOOH — TraccionWeb',
+    description: 'Videos profesionales para pantallas DOOH y centros comerciales. Desde $25/video. Calidad 4K, entrega en 24 horas.',
     locale: 'es_VE',
     type: 'website',
     url: 'https://app.traccionweb.com/dooh',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Planes de Publicidad DOOH — Pantallas Digitales LED',
-    description: 'Publicidad en pantallas digitales desde $50/semana. Lleva tu marca a pantallas LED en los mejores locations de la ciudad.',
+    title: 'Produccion de Video DOOH — TraccionWeb',
+    description: 'Videos profesionales para pantallas DOOH. Desde $25/video. Entrega en 24 horas.',
   },
 };
 
