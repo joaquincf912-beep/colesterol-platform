@@ -70,20 +70,17 @@ const VIDEOS = [
   {
     title: 'Produccion Fotografica Profesional',
     description: 'Sesion de fotos con iluminacion profesional, composicion artistica y acabado comercial de alta gama.',
-    pinUrl: 'https://www.pinterest.com/pin/617063586489368446/',
-    thumbnail: 'https://i.pinimg.com/736x/56/0d/0a/560d0a4d4989dd8e1bbd50a599459294.jpg',
+    youtubeId: 'dLcFQZN39xw',
   },
   {
     title: 'Contenido Visual para Marcas',
     description: 'Video producido para marca de moda con edicion cinematica, movimiento de camara y color grading profesional.',
-    pinUrl: 'https://www.pinterest.com/pin/303570831155094859/',
-    thumbnail: 'https://i.pinimg.com/736x/f7/b5/c0/f7b5c096a2d34976b502e7cd1c74e513.jpg',
+    youtubeId: 't2LMvk7CKJ0',
   },
   {
     title: 'Publicidad de Producto Premium',
     description: 'Spot publicitario con close-up de producto, efectos de movimiento y narrativa visual de alto impacto.',
-    pinUrl: 'https://www.pinterest.com/pin/1108378158339782703/',
-    thumbnail: 'https://i.pinimg.com/736x/d2/e5/cb/d2e5cbb52c0df4fb35bb23e33a9c959d.jpg',
+    youtubeId: 'LwV-mOpShRY',
   },
 ];
 
@@ -257,33 +254,23 @@ export default function DOOHPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {VIDEOS.map((video, i) => (
-              <a
-                key={i}
-                href={video.pinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white/[0.02] border border-white/[0.04] rounded-3xl overflow-hidden hover:bg-white/[0.03] transition-all group block"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <img
-                    src={video.thumbnail}
-                    alt={video.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              <div key={i} className="bg-white/[0.02] border border-white/[0.04] rounded-3xl overflow-hidden group">
+                <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${video.youtubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+                    title={video.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                  <div className="absolute top-3 left-3 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm">
-                    <span className="text-[9px] text-white/60 font-medium">VIDEO</span>
-                  </div>
-                  <div className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-violet-500/80 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Play className="w-4 h-4 text-white ml-0.5" />
-                  </div>
                 </div>
                 <div className="p-4">
                   <h3 className="text-sm font-bold text-white mb-1 group-hover:text-violet-400 transition-colors">{video.title}</h3>
                   <p className="text-[11px] text-white/30 leading-relaxed">{video.description}</p>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
