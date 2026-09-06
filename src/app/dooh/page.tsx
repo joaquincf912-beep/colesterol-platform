@@ -1,69 +1,62 @@
 'use client';
 
 import {
-  Monitor, Eye, TrendingUp, Users, Zap, Globe,
+  Monitor, Eye, Users, Zap, Globe,
   Check, ArrowRight, Star, MessageCircle, Clock,
-  BarChart3, Target, Smartphone, Wifi, Layout, Play
+  Target, Video, Film, Camera, Palette, Play
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const FEATURES = [
   {
-    icon: Monitor,
-    title: 'Pantallas LED Premium',
-    description: 'Pantallas de alta resolucion en locations de alto trafico: centros comerciales, restaurantes y zonas premium.',
+    icon: Film,
+    title: 'Produccion de Video',
+    description: 'Videos profesionales optimizados para pantallas DOOH, centros comerciales, locales y espacios premium.',
     color: 'text-violet-400',
     bgColor: 'bg-violet-500/10',
   },
   {
-    icon: Target,
-    title: 'Segmentacion Geografica',
-    description: 'Segmenta tu anuncio por zona geografica, horario y audiencia. Control total desde un dashboard.',
+    icon: Camera,
+    title: 'Grabacion en Locacion',
+    description: 'Vamos a tu negocio o evento para capturar el mejor contenido con iluminacion y equipo profesional.',
     color: 'text-[#FFC700]',
     bgColor: 'bg-[#FFC700]/10',
   },
   {
-    icon: BarChart3,
-    title: 'Metricas en Tiempo Real',
-    description: 'Impresiones, alcance, engagement y ROI medido en tiempo real desde tu panel de control.',
+    icon: Palette,
+    title: 'Edicion y Color Grading',
+    description: 'Edicion cinematografica, correccion de color y ajuste de imagen optimizado para cada tipo de pantalla.',
     color: 'text-cyan-400',
     bgColor: 'bg-cyan-500/10',
   },
   {
     icon: Zap,
-    title: 'Cambio Instantaneo',
-    description: 'Cambia tu creative en segundos sin imprmir nada. Actualizaciones remotas via nube.',
+    title: 'Formatos Multiples',
+    description: 'Entregamos tu video en todos los formatos: horizontal, vertical y cuadrado para cualquier pantalla DOOH.',
     color: 'text-orange-400',
     bgColor: 'bg-orange-500/10',
   },
   {
     icon: Globe,
-    title: 'Multi-Pantalla',
-    description: 'Un mismo anuncio se despliega en multiples pantallas simultaneamente con sincronizacion total.',
+    title: 'Optimizado para DOOH',
+    description: 'Cada video esta disenado especificamente para reproduccion en bucle con alto impacto visual en espacios publicos.',
     color: 'text-green-400',
     bgColor: 'bg-green-500/10',
   },
   {
-    icon: Layout,
-    title: 'Creative Service',
-    description: 'Diseno de piezas graficas y videos animados optimizados para cada formato de pantalla.',
+    icon: Video,
+    title: 'Entrega Rapida',
+    description: 'Tu video listo en 24-48 horas. Formato final optimizado en 4K listo para cualquier pantalla o plataforma.',
     color: 'text-pink-400',
     bgColor: 'bg-pink-500/10',
   },
 ];
 
 const STATS = [
-  { value: '50K+', label: 'Impresiones diarias' },
-  { value: '85%', label: 'Recuerdo de marca' },
-  { value: '3x', label: 'Mas engagement vs digital' },
-  { value: '24/7', label: 'Publicidad continua' },
-];
-
-const LOCATIONS = [
-  { name: 'Centros Comerciales', screens: '12 pantallas', reach: '15K personas/dia' },
-  { name: 'Restaurantes', screens: '8 pantallas', reach: '8K personas/dia' },
-  { name: 'Zonas de Comida Rapida', screens: '6 pantallas', reach: '12K personas/dia' },
-  { name: 'Estaciones de Transporte', screens: '4 pantallas', reach: '20K personas/dia' },
+  { value: '24h', label: 'Entrega en 24 horas' },
+  { value: '4K', label: 'Calidad Ultra HD' },
+  { value: '3x', label: 'Mas impacto que estatico' },
+  { value: '100%', label: 'Clientes satisfechos' },
 ];
 
 const VIDEOS = [
@@ -86,50 +79,50 @@ const VIDEOS = [
 
 const PLANS = [
   {
-    name: 'Starter',
-    subtitle: 'Presencia Local',
-    description: 'Ideal para negocios locales que quieren presencia en 1-2 pantallas.',
-    price: '$50',
-    period: '/semana',
+    name: 'Basico',
+    subtitle: 'Toma Express',
+    description: 'Ideal para redes sociales, negocios locales o contenido rapido.',
+    price: '$25',
+    period: 'por video',
     features: [
-      '1 pantalla LED en zona premium',
-      'Diseño de pieza grafica basico',
-      'Rotacion cada 15 segundos',
-      'Reporte semanal de impresiones',
-      'Soporte por WhatsApp',
+      '1 video corto listo para usar',
+      'Formato optimizado para pantalla o redes',
+      'Edicion basica con musica incluida',
+      'Entrega en 24 horas',
+      '1 ronda de ajustes',
     ],
     highlighted: false,
   },
   {
-    name: 'Growth',
-    subtitle: 'Alcance Multi-Zona',
-    description: 'Para marcas que quieren cubrir multiples zonas de la ciudad.',
-    price: '$120',
-    period: '/semana',
+    name: 'Pro',
+    subtitle: 'Produccion Completa',
+    description: 'Perfecto para marcas que necesitan contenido profesional constante.',
+    price: '$70',
+    period: 'por video',
     features: [
-      '3-5 pantallas en distintas zonas',
-      'Diseno de creative profesional',
-      'Video animado de hasta 15 seg',
-      'Segmentacion por horario',
-      'Dashboard de metricas en tiempo real',
-      'A/B testing de creativos',
+      'Video de hasta 60 segundos',
+      'Grabacion en locacion (hasta 2 sesiones)',
+      'Edicion profesional con color grading',
+      'Musica libre de derechos incluida',
+      'Texto y graficos animados',
+      '2 rondas de revisiones',
     ],
     highlighted: true,
   },
   {
-    name: 'Enterprise',
-    subtitle: 'Dominacion de Mercado',
-    description: 'Para marcas que quieren presencia dominante en toda la ciudad.',
-    price: '$250',
-    period: '/semana',
+    name: 'Premium',
+    subtitle: 'Produccion Premium',
+    description: 'Para campanas grandes, eventos corporativos o contenido de alto impacto.',
+    price: '$150',
+    period: 'por video',
     features: [
-      '10+ pantallas en toda la ciudad',
-      'Produccion de video profesional',
-      'Campañas dinámicas con datos en tiempo real',
-      'Dashboard premium con analytics',
-      'Manager de cuenta dedicado',
-      'Reportes mensuales con ROI',
-      'Actualizaciones ilimitadas',
+      'Video de hasta 2 minutos',
+      'Grabacion profesional completa',
+      'Edicion cinematografica avanzada',
+      'Graficos y animaciones personalizadas',
+      'Mezcla de audio profesional',
+      '3 rondas de revisiones',
+      'Entrega en todos los formatos DOOH',
     ],
     highlighted: false,
   },
@@ -143,17 +136,17 @@ export default function DOOHPage() {
         <div className="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-violet-500 flex items-center justify-center">
-              <Monitor className="w-4 h-4 text-white" />
+              <Video className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm font-bold text-white">TraccionWeb DOOH</span>
+            <span className="text-sm font-bold text-white">TraccionWeb Video</span>
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm text-white/40">
             <a href="#features" className="hover:text-white/70 transition-colors">Servicios</a>
-            <a href="#locations" className="hover:text-white/70 transition-colors">Ubicaciones</a>
+            <a href="#portfolio" className="hover:text-white/70 transition-colors">Portfolio</a>
             <a href="#pricing" className="hover:text-white/70 transition-colors">Precios</a>
           </div>
           <a
-            href="https://wa.me/573026456024?text=Hola,%20estoy%20interesado%20en%20publicidad%20DOOH"
+            href="https://wa.me/573026456024?text=Hola,%20estoy%20interesado%20en%20produccion%20de%20video%20DOOH"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 rounded-full bg-violet-500 text-white text-xs font-semibold hover:bg-violet-400 transition-colors"
@@ -171,19 +164,19 @@ export default function DOOHPage() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-medium mb-6">
-            <Monitor className="w-3 h-3" />
+            <Video className="w-3 h-3" />
             Powered by TraccionWeb
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] mb-6">
-            Publicidad en
+            Video profesional
             <br />
-            <span className="text-violet-400">pantallas digitales</span> DOOH
+            <span className="text-violet-400">para pantallas DOOH</span>
           </h1>
 
           <p className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Lleva tu marca a pantallas LED en los mejores locations de la ciudad. 
-            Publicidad exterior digital con metricas reales. Construido por TraccionWeb.
+            Producimos videos de alto impacto para centros comerciales, locales, restaurantes y espacios publicos.
+            Tu marca en movimiento, 24 horas al dia. Construido por TraccionWeb.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -194,10 +187,10 @@ export default function DOOHPage() {
               Ver Planes <ArrowRight className="w-4 h-4" />
             </a>
             <a
-              href="#locations"
+              href="#portfolio"
               className="px-8 py-4 rounded-2xl bg-white/[0.04] text-white/60 font-semibold text-sm hover:bg-white/[0.06] transition-all border border-white/[0.06]"
             >
-              Ver Ubicaciones
+              Ver Ejemplos
             </a>
           </div>
 
@@ -220,7 +213,7 @@ export default function DOOHPage() {
             <p className="text-[11px] text-violet-400 uppercase tracking-wider font-medium mb-3">Servicios</p>
             <h2 className="text-3xl md:text-4xl font-black">Que ofrecemos</h2>
             <p className="text-sm text-white/30 mt-3 max-w-lg mx-auto">
-              Publicidad exterior digital con control total, metricas reales y creativos profesionales.
+              Produccion de video profesional optimizado para DOOH y centros comerciales.
             </p>
           </div>
 
@@ -283,14 +276,14 @@ export default function DOOHPage() {
           <div className="text-center mb-12">
             <p className="text-[11px] text-violet-400 uppercase tracking-wider font-medium mb-3">Proceso</p>
             <h2 className="text-3xl md:text-4xl font-black">Como funciona</h2>
-            <p className="text-sm text-white/30 mt-3">De la idea a la pantalla en 3 pasos simples.</p>
+            <p className="text-sm text-white/30 mt-3">De la idea a tu video listo para proyectar en 3 pasos.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { step: '01', title: 'Elige tu plan', desc: 'Selecciona la cantidad de pantallas y ubicaciones que necesitas.' },
-              { step: '02', title: 'Diseñamos tu creative', desc: 'Nuestro equipo crea piezas graficas o videos optimizados para LED.' },
-              { step: '03', title: 'Tu anuncio esta en vivo', desc: 'Subimos el contenido a las pantallas y tu marca empieza a verse.' },
+              { step: '01', title: 'Cuentanos tu idea', desc: 'Describe tu negocio, tu marca y el tipo de contenido que necesitas.' },
+              { step: '02', title: 'Producimos tu video', desc: 'Grabamos y editamos tu video con calidad profesional y formato optimizado.' },
+              { step: '03', title: 'Tu video esta listo', desc: 'Recibe tu archivo final en 24-48 horas, listo para cualquier pantalla.' },
             ].map((item, i) => (
               <div key={i} className="text-center">
                 <div className="w-16 h-16 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mx-auto mb-4">
@@ -304,44 +297,13 @@ export default function DOOHPage() {
         </div>
       </section>
 
-      {/* Locations */}
-      <section id="locations" className="py-20 px-5">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[11px] text-violet-400 uppercase tracking-wider font-medium mb-3">Ubicaciones</p>
-            <h2 className="text-3xl md:text-4xl font-black">Donde se ve tu anuncio</h2>
-            <p className="text-sm text-white/30 mt-3">Pantallas estrategicamente ubicadas en zonas de alto trafico.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {LOCATIONS.map((loc, i) => (
-              <div key={i} className="bg-white/[0.02] border border-white/[0.04] rounded-2xl p-5 flex items-center justify-between hover:bg-white/[0.03] transition-all">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center">
-                    <Monitor className="w-5 h-5 text-violet-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-white">{loc.name}</h3>
-                    <p className="text-[10px] text-white/30">{loc.screens}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs font-bold text-violet-400">{loc.reach}</p>
-                  <p className="text-[10px] text-white/20">alcance diario</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Pricing */}
       <section id="pricing" className="py-20 px-5">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-[11px] text-violet-400 uppercase tracking-wider font-medium mb-3">Precios</p>
-            <h2 className="text-3xl md:text-4xl font-black">Planes DOOH</h2>
-            <p className="text-sm text-white/30 mt-3">Publicidad que se paga sola. Sin contratos largos.</p>
+            <h2 className="text-3xl md:text-4xl font-black">Planes de Produccion</h2>
+            <p className="text-sm text-white/30 mt-3">Videos profesionales a precios accesibles. Sin contratos largos.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -384,7 +346,7 @@ export default function DOOHPage() {
                   </ul>
 
                   <a
-                    href={`https://wa.me/573026456024?text=Hola,%20estoy%20interesado%20en%20el%20plan%20${plan.name}%20de%20DOOH`}
+                    href={`https://wa.me/573026456024?text=Hola,%20estoy%20interesado%20en%20el%20plan%20${plan.name}%20de%20produccion%20DOOH`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
@@ -407,15 +369,15 @@ export default function DOOHPage() {
       <section className="py-20 px-5">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-black mb-4">
-            Tu marca necesita
+            Tu negocio necesita
             <br />
-            <span className="text-violet-400">verse en grande</span>
+            <span className="text-violet-400">video que impacte</span>
           </h2>
           <p className="text-sm text-white/30 mb-8 max-w-lg mx-auto">
-            Publicidad en las mejores pantallas de la ciudad. Cotiza ahora y empieza a impactar.
+            Produccion de video profesional para DOOH, redes sociales y tu marca. Cotiza ahora y empieza a impactar.
           </p>
           <a
-            href="https://wa.me/573026456024?text=Hola,%20quiero%20cotizar%20publicidad%20DOOH%20para%20mi%20negocio"
+            href="https://wa.me/573026456024?text=Hola,%20quiero%20cotizar%20un%20video%20DOOH%20para%20mi%20negocio"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-[#25D366] text-white font-semibold text-sm hover:bg-[#20BD5A] transition-all active:scale-[0.98]"
@@ -431,9 +393,9 @@ export default function DOOHPage() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-violet-500 flex items-center justify-center">
-              <Monitor className="w-3 h-3 text-white" />
+              <Video className="w-3 h-3 text-white" />
             </div>
-            <span className="text-xs text-white/30">TraccionWeb DOOH</span>
+            <span className="text-xs text-white/30">TraccionWeb Video</span>
           </div>
           <p className="text-[10px] text-white/15">Desarrollado por TraccionWeb</p>
         </div>
