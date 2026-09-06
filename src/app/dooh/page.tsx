@@ -1,31 +1,31 @@
 'use client';
 
 import {
-  Monitor, Eye, Users, Zap, Globe,
-  Check, ArrowRight, Star, MessageCircle, Clock,
-  Target, Video, Film, Camera, Palette, Play
+  Eye, Users, Zap, Globe,
+  Check, ArrowRight, Star, MessageCircle,
+  Target, Video, Film, Palette, Play, Wand2, Layers
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const FEATURES = [
   {
     icon: Film,
-    title: 'Produccion de Video',
-    description: 'Videos profesionales optimizados para pantallas DOOH, centros comerciales, locales y espacios premium.',
+    title: 'Creacion de Video',
+    description: 'Creamos videos cortos y profesionales optimizados para pantallas DOOH, centros comerciales y espacios publicos.',
     color: 'text-violet-400',
     bgColor: 'bg-violet-500/10',
   },
   {
-    icon: Camera,
-    title: 'Grabacion en Locacion',
-    description: 'Vamos a tu negocio o evento para capturar el mejor contenido con iluminacion y equipo profesional.',
+    icon: Palette,
+    title: 'Edicion Profesional',
+    description: 'Edicion cinematografica, correccion de color y ajuste de imagen optimizado para cada tipo de pantalla.',
     color: 'text-[#FFC700]',
     bgColor: 'bg-[#FFC700]/10',
   },
   {
-    icon: Palette,
-    title: 'Edicion y Color Grading',
-    description: 'Edicion cinematografica, correccion de color y ajuste de imagen optimizado para cada tipo de pantalla.',
+    icon: Wand2,
+    title: 'Animaciones y Graficos',
+    description: 'Texto animado, graficos en movimiento y efectos visuales que hacen tu video mas atractivo.',
     color: 'text-cyan-400',
     bgColor: 'bg-cyan-500/10',
   },
@@ -46,7 +46,7 @@ const FEATURES = [
   {
     icon: Video,
     title: 'Entrega Rapida',
-    description: 'Tu video listo en 24-48 horas. Formato final optimizado en 4K listo para cualquier pantalla o plataforma.',
+    description: 'Tu video listo en 24-48 horas. Formato final optimizado en HD o 4K listo para cualquier pantalla o plataforma.',
     color: 'text-pink-400',
     bgColor: 'bg-pink-500/10',
   },
@@ -101,7 +101,6 @@ const PLANS = [
     period: 'por video',
     features: [
       'Video de hasta 60 segundos',
-      'Grabacion en locacion (hasta 2 sesiones)',
       'Edicion profesional con color grading',
       'Musica libre de derechos incluida',
       'Texto y graficos animados',
@@ -117,7 +116,6 @@ const PLANS = [
     period: 'por video',
     features: [
       'Video de hasta 2 minutos',
-      'Grabacion profesional completa',
       'Edicion cinematografica avanzada',
       'Graficos y animaciones personalizadas',
       'Mezcla de audio profesional',
@@ -146,7 +144,7 @@ export default function DOOHPage() {
             <a href="#pricing" className="hover:text-white/70 transition-colors">Precios</a>
           </div>
           <a
-            href="https://wa.me/573026456024?text=Hola,%20estoy%20interesado%20en%20produccion%20de%20video%20DOOH"
+            href="https://wa.me/573026456024?text=Hola,%20estoy%20interesado%20en%20un%20video%20DOOH"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 rounded-full bg-violet-500 text-white text-xs font-semibold hover:bg-violet-400 transition-colors"
@@ -169,13 +167,13 @@ export default function DOOHPage() {
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] mb-6">
-            Video profesional
+            Videos cortos
             <br />
             <span className="text-violet-400">para pantallas DOOH</span>
           </h1>
 
           <p className="text-lg md:text-xl text-white/40 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Producimos videos de alto impacto para centros comerciales, locales, restaurantes y espacios publicos.
+            Creamos videos de alto impacto para centros comerciales, locales, restaurantes y espacios publicos.
             Tu marca en movimiento, 24 horas al dia. Construido por TraccionWeb.
           </p>
 
@@ -213,7 +211,7 @@ export default function DOOHPage() {
             <p className="text-[11px] text-violet-400 uppercase tracking-wider font-medium mb-3">Servicios</p>
             <h2 className="text-3xl md:text-4xl font-black">Que ofrecemos</h2>
             <p className="text-sm text-white/30 mt-3 max-w-lg mx-auto">
-              Produccion de video profesional optimizado para DOOH y centros comerciales.
+              Creacion de video profesional optimizado para DOOH y centros comerciales.
             </p>
           </div>
 
@@ -282,7 +280,7 @@ export default function DOOHPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { step: '01', title: 'Cuentanos tu idea', desc: 'Describe tu negocio, tu marca y el tipo de contenido que necesitas.' },
-              { step: '02', title: 'Producimos tu video', desc: 'Grabamos y editamos tu video con calidad profesional y formato optimizado.' },
+              { step: '02', title: 'Creamos tu video', desc: 'Nuestro equipo edita y produce tu video con calidad profesional y formato optimizado.' },
               { step: '03', title: 'Tu video esta listo', desc: 'Recibe tu archivo final en 24-48 horas, listo para cualquier pantalla.' },
             ].map((item, i) => (
               <div key={i} className="text-center">
@@ -346,7 +344,7 @@ export default function DOOHPage() {
                   </ul>
 
                   <a
-                    href={`https://wa.me/573026456024?text=Hola,%20estoy%20interesado%20en%20el%20plan%20${plan.name}%20de%20produccion%20DOOH`}
+                    href={`https://wa.me/573026456024?text=Hola,%20estoy%20interesado%20en%20el%20plan%20${plan.name}%20de%20video%20DOOH`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
@@ -374,7 +372,7 @@ export default function DOOHPage() {
             <span className="text-violet-400">video que impacte</span>
           </h2>
           <p className="text-sm text-white/30 mb-8 max-w-lg mx-auto">
-            Produccion de video profesional para DOOH, redes sociales y tu marca. Cotiza ahora y empieza a impactar.
+            Videos cortos profesionales para DOOH, redes sociales y tu marca. Cotiza ahora y empieza a impactar.
           </p>
           <a
             href="https://wa.me/573026456024?text=Hola,%20quiero%20cotizar%20un%20video%20DOOH%20para%20mi%20negocio"
