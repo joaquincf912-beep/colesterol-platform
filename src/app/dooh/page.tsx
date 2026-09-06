@@ -70,17 +70,17 @@ const VIDEOS = [
   {
     title: 'Produccion Fotografica Profesional',
     description: 'Sesion de fotos con iluminacion profesional, composicion artistica y acabado comercial de alta gama.',
-    youtubeId: 'dLcFQZN39xw',
+    src: '/dooh-burger.mp4',
   },
   {
     title: 'Contenido Visual para Marcas',
     description: 'Video producido para marca de moda con edicion cinematica, movimiento de camara y color grading profesional.',
-    youtubeId: 't2LMvk7CKJ0',
+    src: '/dooh-fashion.mp4',
   },
   {
     title: 'Publicidad de Producto Premium',
     description: 'Spot publicitario con close-up de producto, efectos de movimiento y narrativa visual de alto impacto.',
-    youtubeId: 'LwV-mOpShRY',
+    src: '/dooh-protein.mp4',
   },
 ];
 
@@ -255,16 +255,17 @@ export default function DOOHPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {VIDEOS.map((video, i) => (
               <div key={i} className="bg-white/[0.02] border border-white/[0.04] rounded-3xl overflow-hidden group">
-                <div className="relative" style={{ paddingBottom: '56.25%' }}>
-                  <iframe
-                    className="absolute inset-0 w-full h-full"
-                    src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${video.youtubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
-                    title={video.title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    loading="lazy"
-                  />
+                <div className="relative aspect-[9/16]">
+                  <video
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                  >
+                    <source src={video.src} type="video/mp4" />
+                  </video>
                 </div>
                 <div className="p-4">
                   <h3 className="text-sm font-bold text-white mb-1 group-hover:text-violet-400 transition-colors">{video.title}</h3>
