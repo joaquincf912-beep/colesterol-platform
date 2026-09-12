@@ -3,7 +3,7 @@
 import {
   BookOpen, Heart, Star, Sparkles, Check, ArrowRight,
   MessageCircle, Gift, Palette, Globe, Cloud, Sun,
-  Moon, TreePine, Fish, Cat, Dog, Rainbow
+  Moon, TreePine, Fish, Cat, Dog, Rainbow, Crown
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -11,7 +11,7 @@ const BOOKS = [
   {
     title: 'El Superheroe de [Nombre]',
     description: 'Tu nino/a es el protagonista de su propia aventura de superheroe. Incluye su nombre, apariencia y poderes especiales.',
-    cover: 'https://images.unsplash.com/photo-1629236714692-9ad8b7ae89e2?w=400&h=560&fit=crop',
+    cover: 'https://images.unsplash.com/photo-1635321813664-38aa1e4f3d32?w=600&h=800&fit=crop&crop=center',
     price: '$19.99',
     color: 'from-blue-400 via-indigo-500 to-purple-600',
     pages: '24 paginas',
@@ -20,7 +20,7 @@ const BOOKS = [
   {
     title: 'Mi Princesa Favorita',
     description: 'Una historia magica donde tu hija es la princesa mas valiente del reino. Con dragones, castillos y mucho amor.',
-    cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=560&fit=crop',
+    cover: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=800&fit=crop&crop=center',
     price: '$19.99',
     color: 'from-pink-400 via-rose-500 to-fuchsia-600',
     pages: '24 paginas',
@@ -29,7 +29,7 @@ const BOOKS = [
   {
     title: 'Aventura en el Espacio',
     description: 'Tu hijo/a viaja a la luna y mas alla en esta emocionante aventura espacial. Con planetas, cohetes y aliens amigables.',
-    cover: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400&h=560&fit=crop',
+    cover: 'https://images.unsplash.com/photo-1635321813664-38aa1e4f3d32?w=600&h=800&fit=crop&crop=top',
     price: '$22.99',
     color: 'from-indigo-400 via-blue-500 to-cyan-600',
     pages: '28 paginas',
@@ -38,7 +38,7 @@ const BOOKS = [
   {
     title: 'El Bosque Encantado',
     description: 'Una aventura en la naturaleza donde tu nino/a hace amigos con todos los animales del bosque.',
-    cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=560&fit=crop',
+    cover: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=600&h=800&fit=crop&crop=center',
     price: '$19.99',
     color: 'from-green-400 via-emerald-500 to-teal-600',
     pages: '24 paginas',
@@ -47,7 +47,7 @@ const BOOKS = [
   {
     title: 'Mi Primer Libro de Colores',
     description: 'Libro interactivo para los mas pequenos. Aprende colores con imagenes brillantes y texturas suaves.',
-    cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=560&fit=crop',
+    cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop&crop=center',
     price: '$14.99',
     color: 'from-yellow-400 via-orange-500 to-red-500',
     pages: '16 paginas',
@@ -56,7 +56,7 @@ const BOOKS = [
   {
     title: 'La Receta Magica',
     description: 'Tu nino/a es el chef estrella en esta aventura culinaria. Aprende sobre comida saludable mientras se divierte.',
-    cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=560&fit=crop',
+    cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=800&fit=crop&crop=center',
     price: '$19.99',
     color: 'from-red-400 via-pink-500 to-rose-500',
     pages: '24 paginas',
@@ -341,16 +341,17 @@ export default function LibrosPage() {
                 className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-pink-200/40 hover:shadow-2xl hover:shadow-pink-300/40 transition-all group border-2 border-pink-100 hover:border-pink-300 hover:-translate-y-2"
               >
                 {/* Book Cover */}
-                <div className={cn('relative aspect-[3/4] bg-gradient-to-br', book.color, 'flex items-center justify-center p-6 overflow-hidden')}>
+                <div className={cn('relative aspect-[3/4] bg-gradient-to-br', book.color, 'flex items-center justify-center overflow-hidden')}>
                   <img 
                     src={book.cover} 
                     alt={book.title}
-                    className="absolute inset-0 w-full h-full object-cover opacity-90"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   
                   {/* Book icon overlay */}
-                  <div className="absolute top-4 left-4 bg-white/90 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="absolute top-4 left-4 bg-white/95 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg">
                     <book.icon className="w-5 h-5 text-pink-500" />
                   </div>
                   
@@ -360,7 +361,7 @@ export default function LibrosPage() {
                   </div>
                   
                   {/* Title overlay */}
-                  <div className="relative z-10 text-center mt-auto">
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
                     <h3 className="text-xl font-black text-white leading-tight drop-shadow-lg">{book.title}</h3>
                     <p className="text-sm text-white/90 mt-1 font-medium drop-shadow-md">{book.pages}</p>
                   </div>
@@ -487,7 +488,7 @@ export default function LibrosPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-5 bg-gradient-to-r from-pink-500 via-rose-500 via-purple-500 to-blue-500 relative overflow-hidden">
+      <section className="py-20 px-5 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl" />
           <div className="absolute bottom-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-xl" />
