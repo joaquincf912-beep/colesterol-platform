@@ -29,7 +29,7 @@ const BOOKS = [
   {
     title: 'Aventura en el Espacio',
     description: 'Tu hijo/a viaja a la luna y mas alla en esta emocionante aventura espacial. Con planetas, cohetes y aliens amigables.',
-    cover: 'https://images.unsplash.com/photo-1635321813664-38aa1e4f3d32?w=600&h=800&fit=crop&crop=top',
+    cover: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=600&h=800&fit=crop&crop=top',
     price: '$22.99',
     color: 'from-indigo-400 via-blue-500 to-cyan-600',
     pages: '28 paginas',
