@@ -546,17 +546,6 @@ export default function LibrosPage() {
         </a>
       </div>
 
-      {/* Floating WhatsApp Button */}
-      <a
-        href="https://wa.me/573026456024?text=Hola,%20quiero%20crear%20un%20libro%20personalizado%20desde%20cero"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="md:flex hidden fixed bottom-6 right-6 z-50 flex items-center gap-2 px-6 py-4 rounded-full bg-[#25D366] text-white font-black text-sm shadow-2xl shadow-green-500/40 hover:bg-[#20bd5a] transition-all active:scale-95"
-        aria-label="Crear libro por WhatsApp"
-      >
-        <MessageCircle className="w-5 h-5" />
-        Crea tu libro desde cero
-      </a>
     </div>
   );
 }
