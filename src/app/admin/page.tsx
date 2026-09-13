@@ -9,7 +9,7 @@ import {
   ChevronDown, ChevronRight, Eye, X, Check, Save, RefreshCw,
   Phone, MapPin, MessageCircle, Package, AlertCircle, CheckCircle,
   Utensils, Truck, Star, BarChart3, Calendar, Filter,
-  ImagePlus, FileText, GripVertical, Copy, ExternalLink
+  ImagePlus, FileText, GripVertical, Copy, ExternalLink, BookOpen
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 const SalesChart = dynamic(() => import('@/components/admin/SalesChart'), { ssr: false });
@@ -316,7 +316,17 @@ export default function AdminDashboard() {
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-white/5">
+        <div className="p-4 border-t border-white/5 space-y-2">
+          <a
+            href="/libros/pedidos"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/40 hover:text-white/70 hover:bg-white/5 transition-all"
+          >
+            <BookOpen className="w-4 h-4" />
+            <span className="flex-1 text-left">Pedidos de Libros</span>
+            <ExternalLink className="w-3 h-3 opacity-50" />
+          </a>
           <div className="glass-card rounded-xl p-3">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />

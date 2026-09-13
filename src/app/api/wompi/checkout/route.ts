@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { orderStore, BookOrder } from '@/lib/book-orders-store';
 
 // Wompi payment checkout API
 // Generates the integrity signature server-side (never expose the secret in frontend)
@@ -31,6 +32,33 @@ export async function POST(req: Request) {
     // Integrity signature: SHA256(reference + amountInCents + currency + secret)
     const concat = `${reference}${amountInCents}COP${integritySecret}`;
     const signature = crypto.createHash('sha256').update(concat).digest('hex');
+
+    // Register the order as pending (webhook will update it to paid/declined)
+    const orderRecord: BookOrder = {
+      reference,
+      status: 'pending',
+      bookId,
+      bookTitle,
+      childName: childName || '',
+      features: features || [],
+      amountInCents,
+      customerEmail: customerEmail || '',
+      updatedAt: new Date().toISOString(),
+    };
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (supabaseUrl && serviceKey) {
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(supabaseUrl, serviceKey);
+        await supabase.from('book_orders').upsert(orderRecord, { onConflict: 'reference' });
+      } catch {
+        // ignore; memory store still registers it
+      }
+    }
+
+    orderStore().set(reference, orderRecord);
 
     return NextResponse.json({
       publicKey,

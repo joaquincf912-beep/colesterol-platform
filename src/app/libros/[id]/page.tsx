@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, MessageCircle, Check, Star, BookOpen, Palette, Gift, Globe, CreditCard, Loader2 } from 'lucide-react';
+import { ArrowLeft, MessageCircle, Check, Star, BookOpen, Palette, Gift, Globe, CreditCard, Loader2, Banknote, Copy } from 'lucide-react';
 
 const BOOKS = [
   {
@@ -87,6 +87,15 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
   const [processingPayment, setProcessingPayment] = useState(false);
   const [paymentError, setPaymentError] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
+  const [showManualPay, setShowManualPay] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   if (!book) {
     return (
@@ -316,6 +325,38 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                 <span className="text-xs text-white/70 font-bold uppercase">o</span>
                 <div className="flex-1 h-px bg-white/30" />
               </div>
+
+              {/* Manual payments accordion */}
+              <button
+                onClick={() => setShowManualPay(!showManualPay)}
+                className="w-full flex items-center justify-center gap-2 text-white/90 text-sm font-bold py-2 hover:text-white transition-colors"
+              >
+                <Banknote className="w-4 h-4" />
+                Pagar con transferencia o Pago Móvil
+              </button>
+              {showManualPay && (
+                <div className="bg-white/10 border border-white/25 rounded-xl p-4 mt-2 mb-3 space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <div>
+                      <p className="text-[10px] text-white/60 font-black uppercase tracking-wide">Bancolombia · Ahorros</p>
+                      <p className="text-sm font-black text-white">321-000000-00</p>
+                    </div>
+                    <button onClick={() => copyToClipboard('321-000000-00')} className="p-2 rounded-lg bg-white/15 hover:bg-white/25 transition-colors" aria-label="Copiar cuenta">
+                      {copied ? <Check className="w-4 h-4 text-green-300" /> : <Copy className="w-4 h-4 text-white" />}
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <div>
+                      <p className="text-[10px] text-white/60 font-black uppercase tracking-wide">Nequi</p>
+                      <p className="text-sm font-black text-white">301 000 0000</p>
+                    </div>
+                    <button onClick={() => copyToClipboard('3010000000')} className="p-2 rounded-lg bg-white/15 hover:bg-white/25 transition-colors" aria-label="Copiar Nequi">
+                      {copied ? <Check className="w-4 h-4 text-green-300" /> : <Copy className="w-4 h-4 text-white" />}
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-white/70 font-medium">Envía el comprobante por WhatsApp para confirmar tu pedido.</p>
+                </div>
+              )}
 
               <a
                 href={`https://wa.me/573026456024?text=${encodeURIComponent(personalizedText)}`}
