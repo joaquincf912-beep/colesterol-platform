@@ -11,7 +11,7 @@ const BOOKS = [
   {
     title: 'El Superheroe de [Nombre]',
     description: 'Tu nino/a es el protagonista de su propia aventura de superheroe. Incluye su nombre, apariencia y poderes especiales.',
-    cover: 'https://images.unsplash.com/photo-1635321813664-38aa1e4f3d32?w=600&h=800&fit=crop&crop=center',
+    cover: 'https://i.pinimg.com/originals/0c/98/a0/0c98a00f3d22aa4642892fe868fdaefa.jpg',
     price: '$19.99',
     color: 'from-blue-400 via-indigo-500 to-purple-600',
     pages: '24 paginas',
@@ -20,7 +20,7 @@ const BOOKS = [
   {
     title: 'Mi Princesa Favorita',
     description: 'Una historia magica donde tu hija es la princesa mas valiente del reino. Con dragones, castillos y mucho amor.',
-    cover: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=800&fit=crop&crop=center',
+    cover: 'https://i.pinimg.com/originals/d2/35/5b/d2355bff3d68ffbaf183bd3a69471e91.jpg',
     price: '$19.99',
     color: 'from-pink-400 via-rose-500 to-fuchsia-600',
     pages: '24 paginas',
@@ -29,7 +29,7 @@ const BOOKS = [
   {
     title: 'Aventura en el Espacio',
     description: 'Tu hijo/a viaja a la luna y mas alla en esta emocionante aventura espacial. Con planetas, cohetes y aliens amigables.',
-    cover: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=600&h=800&fit=crop&crop=top',
+    cover: 'https://i.pinimg.com/originals/5f/0c/37/5f0c376d509772fce97be54742871e45.png',
     price: '$22.99',
     color: 'from-indigo-400 via-blue-500 to-cyan-600',
     pages: '28 paginas',
@@ -38,7 +38,7 @@ const BOOKS = [
   {
     title: 'El Bosque Encantado',
     description: 'Una aventura en la naturaleza donde tu nino/a hace amigos con todos los animales del bosque.',
-    cover: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=600&h=800&fit=crop&crop=center',
+    cover: 'https://i.pinimg.com/originals/d7/08/b1/d708b1930d7e2bf2fc8662a137f14372.jpg',
     price: '$19.99',
     color: 'from-green-400 via-emerald-500 to-teal-600',
     pages: '24 paginas',
@@ -47,7 +47,7 @@ const BOOKS = [
   {
     title: 'Mi Primer Libro de Colores',
     description: 'Libro interactivo para los mas pequenos. Aprende colores con imagenes brillantes y texturas suaves.',
-    cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop&crop=center',
+    cover: 'https://i.pinimg.com/originals/f1/61/6c/f1616cac88738eb026f94196d669739b.jpg',
     price: '$14.99',
     color: 'from-yellow-400 via-orange-500 to-red-500',
     pages: '16 paginas',
@@ -56,7 +56,7 @@ const BOOKS = [
   {
     title: 'La Receta Magica',
     description: 'Tu nino/a es el chef estrella en esta aventura culinaria. Aprende sobre comida saludable mientras se divierte.',
-    cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=800&fit=crop&crop=center',
+    cover: 'https://i.pinimg.com/originals/bd/ef/af/bdefafdb7ace1948f605d5d8679780c9.jpg',
     price: '$19.99',
     color: 'from-red-400 via-pink-500 to-rose-500',
     pages: '24 paginas',
