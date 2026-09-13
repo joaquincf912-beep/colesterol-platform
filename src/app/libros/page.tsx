@@ -12,11 +12,11 @@ const BOOKS = [
   {
     id: 'superheroe',
     title: 'El Superheroe de [Nombre]',
-    description: 'Tu nino/a es el protagonista de su propia aventura de superheroe. Incluye su nombre, apariencia y poderes especiales.',
+    description: 'Tu niño/a es el protagonista de su propia aventura de superheroe. Incluye su nombre, apariencia y poderes especiales.',
     cover: '/covers/superheroe.jpg',
     price: '$19.99',
     color: 'from-blue-400 via-indigo-500 to-purple-600',
-    pages: '24 paginas',
+    pages: '24 páginas',
     icon: Star,
   },
   {
@@ -26,7 +26,7 @@ const BOOKS = [
     cover: '/covers/princesa.jpg',
     price: '$19.99',
     color: 'from-pink-400 via-rose-500 to-fuchsia-600',
-    pages: '24 paginas',
+    pages: '24 páginas',
     icon: Crown,
   },
   {
@@ -36,37 +36,37 @@ const BOOKS = [
     cover: '/covers/espacio.jpg',
     price: '$22.99',
     color: 'from-indigo-400 via-blue-500 to-cyan-600',
-    pages: '28 paginas',
+    pages: '28 páginas',
     icon: Moon,
   },
   {
     id: 'bosque',
     title: 'El Bosque Encantado',
-    description: 'Una aventura en la naturaleza donde tu nino/a hace amigos con todos los animales del bosque.',
+    description: 'Una aventura en la naturaleza donde tu niño/a hace amigos con todos los animales del bosque.',
     cover: '/covers/bosque.jpg',
     price: '$19.99',
     color: 'from-green-400 via-emerald-500 to-teal-600',
-    pages: '24 paginas',
+    pages: '24 páginas',
     icon: TreePine,
   },
   {
     id: 'colores',
     title: 'Mi Primer Libro de Colores',
-    description: 'Libro interactivo para los mas pequenos. Aprende colores con imagenes brillantes y texturas suaves.',
+    description: 'Libro interactivo para los mas pequeños. Aprende colores con imagenes brillantes y texturas suaves.',
     cover: '/covers/colores.jpg',
     price: '$14.99',
     color: 'from-yellow-400 via-orange-500 to-red-500',
-    pages: '16 paginas',
+    pages: '16 páginas',
     icon: Rainbow,
   },
   {
     id: 'receta',
     title: 'La Receta Magica',
-    description: 'Tu nino/a es el chef estrella en esta aventura culinaria. Aprende sobre comida saludable mientras se divierte.',
+    description: 'Tu niño/a es el chef estrella en esta aventura culinaria. Aprende sobre comida saludable mientras se divierte.',
     cover: '/covers/receta.jpg',
     price: '$19.99',
     color: 'from-red-400 via-pink-500 to-rose-500',
-    pages: '24 paginas',
+    pages: '24 páginas',
     icon: Heart,
   },
 ];
@@ -83,7 +83,7 @@ const FEATURES = [
   {
     icon: Palette,
     title: 'Colores Brillantes',
-    description: 'Ilustraciones vibrantes y llamativas que capturan la atencion de los mas pequenos.',
+    description: 'Ilustraciones vibrantes y llamativas que capturan la atención de los mas pequeños.',
     color: 'text-pink-500',
     bgColor: 'bg-pink-100',
     borderColor: 'border-pink-200',
@@ -99,7 +99,7 @@ const FEATURES = [
   {
     icon: Gift,
     title: 'Regalo Perfecto',
-    description: 'El regalo mas especial para cumpleanos, Navidad o cualquier ocasion. Sorprende a los peques.',
+    description: 'El regalo mas especial para cumpleaños, Navidad o cualquier ocasión. Sorprende a los peques.',
     color: 'text-yellow-500',
     bgColor: 'bg-yellow-100',
     borderColor: 'border-yellow-200',
@@ -138,8 +138,8 @@ const PLANS = [
     period: 'por libro',
     color: 'from-blue-400 to-indigo-500',
     features: [
-      '1 libro personalizado (24 paginas)',
-      'Nombre y apariencia del nino/a',
+      '1 libro personalizado (24 páginas)',
+      'Nombre y apariencia del niño/a',
       'Portada con foto ilustrada',
       'Envio estandar incluido',
       '1 revision de contenido',
@@ -154,8 +154,8 @@ const PLANS = [
     period: '3 libros',
     color: 'from-pink-400 via-rose-500 to-fuchsia-500',
     features: [
-      '3 libros personalizados (24 paginas c/u)',
-      'Nombre y apariencia de cada nino',
+      '3 libros personalizados (24 páginas c/u)',
+      'Nombre y apariencia de cada niño',
       '3 portadas diferentes',
       'Envio express incluido',
       '2 revisiones por libro',
@@ -171,7 +171,7 @@ const PLANS = [
     period: '5 libros',
     color: 'from-yellow-400 via-orange-500 to-red-500',
     features: [
-      '5 libros personalizados (28 paginas c/u)',
+      '5 libros personalizados (28 páginas c/u)',
       'Personalizacion avanzada',
       'Portadas premium con relieve',
       'Envio express + caja regalo',
@@ -265,7 +265,7 @@ export default function LibrosPage() {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95] mb-6">
             <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">Libros personalizados</span>
             <br />
-            <span className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent">para los mas pequenos</span>
+            <span className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text text-transparent">para los mas pequeños</span>
           </h1>
 
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
@@ -308,7 +308,7 @@ export default function LibrosPage() {
             <p className="text-[11px] text-pink-500 uppercase tracking-wider font-bold mb-3">Por que elegirnos</p>
             <h2 className="text-3xl md:text-4xl font-black text-gray-800">Caracteristicas</h2>
             <p className="text-sm text-gray-500 mt-3 max-w-lg mx-auto font-medium">
-              Libros personalizados de alta calidad para los mas pequenos de la casa.
+              Libros personalizados de alta calidad para los mas pequeños de la casa.
             </p>
           </div>
 
@@ -401,7 +401,7 @@ export default function LibrosPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { step: '01', title: 'Elige tu libro', desc: 'Selecciona la aventura que mas le guste a tu nino/a y personaliza los detalles.', icon: BookOpen, color: 'from-blue-400 to-indigo-500' },
+              { step: '01', title: 'Elige tu libro', desc: 'Selecciona la aventura que mas le guste a tu niño/a y personaliza los detalles.', icon: BookOpen, color: 'from-blue-400 to-indigo-500' },
               { step: '02', title: 'Personalizalo', desc: 'Agrega el nombre, apariencia y cualquier detalle especial que quieras.', icon: Palette, color: 'from-pink-400 to-rose-500' },
               { step: '03', title: 'Recibelo en casa', desc: 'Enviamos el libro a tu puerta en 7-14 dias. Listo para leer y disfrutar.', icon: Gift, color: 'from-yellow-400 to-orange-500' },
             ].map((item, i) => (
@@ -502,7 +502,7 @@ export default function LibrosPage() {
             <span className="text-yellow-300">que nunca olvidaran</span>
           </h2>
           <p className="text-base text-white/90 mb-8 max-w-lg mx-auto font-medium">
-            Libros personalizados para los mas pequenos. Sorprende a tu nino/a con una historia unica.
+            Libros personalizados para los mas pequeños. Sorprende a tu niño/a con una historia unica.
           </p>
           <a
             href="https://wa.me/573026456024?text=Hola,%20quiero%20crear%20un%20libro%20personalizado%20para%20mi%20hijo/a"
