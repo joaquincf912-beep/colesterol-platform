@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import {
   BookOpen, Heart, Star, Sparkles, Check, ArrowRight,
   MessageCircle, Gift, Palette, Globe, Cloud, Sun,
@@ -9,6 +10,7 @@ import { cn } from '@/lib/utils';
 
 const BOOKS = [
   {
+    id: 'superheroe',
     title: 'El Superheroe de [Nombre]',
     description: 'Tu nino/a es el protagonista de su propia aventura de superheroe. Incluye su nombre, apariencia y poderes especiales.',
     cover: '/covers/superheroe.jpg',
@@ -18,6 +20,7 @@ const BOOKS = [
     icon: Star,
   },
   {
+    id: 'princesa',
     title: 'Mi Princesa Favorita',
     description: 'Una historia magica donde tu hija es la princesa mas valiente del reino. Con dragones, castillos y mucho amor.',
     cover: '/covers/princesa.jpg',
@@ -27,6 +30,7 @@ const BOOKS = [
     icon: Crown,
   },
   {
+    id: 'espacio',
     title: 'Aventura en el Espacio',
     description: 'Tu hijo/a viaja a la luna y mas alla en esta emocionante aventura espacial. Con planetas, cohetes y aliens amigables.',
     cover: '/covers/espacio.jpg',
@@ -36,6 +40,7 @@ const BOOKS = [
     icon: Moon,
   },
   {
+    id: 'bosque',
     title: 'El Bosque Encantado',
     description: 'Una aventura en la naturaleza donde tu nino/a hace amigos con todos los animales del bosque.',
     cover: '/covers/bosque.jpg',
@@ -45,6 +50,7 @@ const BOOKS = [
     icon: TreePine,
   },
   {
+    id: 'colores',
     title: 'Mi Primer Libro de Colores',
     description: 'Libro interactivo para los mas pequenos. Aprende colores con imagenes brillantes y texturas suaves.',
     cover: '/covers/colores.jpg',
@@ -54,6 +60,7 @@ const BOOKS = [
     icon: Rainbow,
   },
   {
+    id: 'receta',
     title: 'La Receta Magica',
     description: 'Tu nino/a es el chef estrella en esta aventura culinaria. Aprende sobre comida saludable mientras se divierte.',
     cover: '/covers/receta.jpg',
@@ -336,9 +343,9 @@ export default function LibrosPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {BOOKS.map((book, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-3xl overflow-hidden shadow-xl shadow-pink-200/40 hover:shadow-2xl hover:shadow-pink-300/40 transition-all group border-2 border-pink-100 hover:border-pink-300 hover:-translate-y-2"
+              <Link
+                href={`/libros/${book.id}`}
+                className="block bg-white rounded-3xl overflow-hidden shadow-xl shadow-pink-200/40 hover:shadow-2xl hover:shadow-pink-300/40 transition-all group border-2 border-pink-100 hover:border-pink-300 hover:-translate-y-2"
               >
                 {/* Book Cover */}
                 <div className={cn('relative aspect-[3/4] bg-gradient-to-br', book.color, 'flex items-center justify-center overflow-hidden')}>
@@ -371,17 +378,12 @@ export default function LibrosPage() {
                 <div className="p-5">
                   <h3 className="text-base font-bold text-gray-800 mb-2 group-hover:text-pink-500 transition-colors">{book.title}</h3>
                   <p className="text-sm text-gray-500 leading-relaxed mb-4">{book.description}</p>
-                  <a
-                    href={`https://wa.me/573026456024?text=Hola,%20quiero%20personalizar%20el%20libro%20"${book.title}"`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 text-white text-sm font-bold hover:from-pink-600 hover:via-rose-600 hover:to-purple-600 transition-all shadow-lg shadow-pink-400/30"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    Personalizar
-                  </a>
+                  <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 text-white text-sm font-bold transition-all shadow-lg shadow-pink-400/30">
+                    <BookOpen className="w-4 h-4" />
+                    Ver detalle
+                  </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
