@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, MessageCircle, Check, Star, BookOpen, Palette, Gift, Globe } from 'lucide-react';
+import { ArrowLeft, MessageCircle, Check, Star, BookOpen, Palette, Gift, Globe, CreditCard, Loader2 } from 'lucide-react';
 
 const BOOKS = [
   {
@@ -84,6 +84,9 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
   const [childName, setChildName] = useState('');
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [processingPayment, setProcessingPayment] = useState(false);
+  const [paymentError, setPaymentError] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
 
   if (!book) {
     return (
@@ -102,6 +105,66 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
     setSelectedFeatures(prev =>
       prev.includes(feature) ? prev.filter(f => f !== feature) : [...prev, feature]
     );
+  };
+
+  const handleCardPayment = async () => {
+    setPaymentError('');
+    setProcessingPayment(true);
+    try {
+      // Price in USD -> COP cents (approx rate 4000 COP/USD)
+      const usdAmount = parseFloat(book.price.replace('$', ''));
+      const amountInCents = Math.round(usdAmount * 4000 * 100);
+
+      const res = await fetch('/api/wompi/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookId: book.id,
+          bookTitle: book.title,
+          childName,
+          features: selectedFeatures,
+          amountInCents,
+          customerEmail,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Error procesando el pago');
+      }
+
+      // Build Wompi Web Checkout form and submit
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://checkout.wompi.co/p/';
+
+      const fields: Record<string, string> = {
+        'public-key': data.publicKey,
+        'currency': data.currency,
+        'amount-in-cents': String(data.amountInCents),
+        'reference': data.reference,
+        'signature:integrity': data.signature,
+        'redirect-url': data.redirectUrl,
+        'customer-data:email': data.customerEmail,
+        'customer-data:full-name': childName ? `Pedido de ${childName}` : 'Libro Personalizado',
+        'customer-data:phone-number': '+573000000000',
+        'customer-data:legal-id': '000000000',
+      };
+
+      Object.entries(fields).forEach(([name, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+    } catch (err) {
+      setPaymentError(err instanceof Error ? err.message : 'Error procesando el pago');
+      setProcessingPayment(false);
+    }
   };
 
   const personalizedText = childName
@@ -213,6 +276,47 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                   <p className="text-3xl font-black">{book.price}</p>
                 </div>
               </div>
+
+              {/* Email for payment receipt */}
+              <input
+                type="email"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                placeholder="Tu email para el recibo de pago"
+                className="w-full px-4 py-3 rounded-xl border-2 border-white/30 bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:border-white/60 text-sm font-medium mb-4 transition-colors"
+              />
+
+              {/* Card payment button */}
+              <button
+                onClick={handleCardPayment}
+                disabled={processingPayment}
+                className="w-full flex items-center justify-center gap-3 bg-white text-gray-900 py-4 rounded-xl font-black text-lg hover:bg-gray-50 transition-all active:scale-95 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed mb-3"
+              >
+                {processingPayment ? (
+                  <>
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                    Procesando...
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-6 h-6" />
+                    Pagar con tarjeta / Nequi
+                  </>
+                )}
+              </button>
+
+              {paymentError && (
+                <div className="bg-red-500/20 border border-red-300/40 text-white text-sm font-bold px-4 py-3 rounded-xl mb-3">
+                  {paymentError}
+                </div>
+              )}
+
+              <div className="flex items-center gap-3 my-3">
+                <div className="flex-1 h-px bg-white/30" />
+                <span className="text-xs text-white/70 font-bold uppercase">o</span>
+                <div className="flex-1 h-px bg-white/30" />
+              </div>
+
               <a
                 href={`https://wa.me/573026456024?text=${encodeURIComponent(personalizedText)}`}
                 target="_blank"

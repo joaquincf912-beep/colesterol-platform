@@ -1,0 +1,53 @@
+import { NextResponse } from 'next/server';
+import crypto from 'crypto';
+
+// Wompi payment checkout API
+// Generates the integrity signature server-side (never expose the secret in frontend)
+// Env vars needed in Vercel:
+//   WOMPI_PUBLIC_KEY       -> pub_prod_xxx or pub_test_xxx
+//   WOMPI_INTEGRITY_SECRET -> prod_integrity_xxx or test_integrity_xxx
+
+export async function POST(req: Request) {
+  try {
+    const { bookId, bookTitle, childName, features, amountInCents, customerEmail } = await req.json();
+
+    if (!bookId || !amountInCents || amountInCents < 100) {
+      return NextResponse.json({ error: 'Datos de pago invalidos' }, { status: 400 });
+    }
+
+    const publicKey = process.env.WOMPI_PUBLIC_KEY;
+    const integritySecret = process.env.WOMPI_INTEGRITY_SECRET;
+
+    if (!publicKey || !integritySecret) {
+      return NextResponse.json(
+        { error: 'Pasarela de pago no configurada. Falta WOMPI_PUBLIC_KEY o WOMPI_INTEGRITY_SECRET en el servidor.' },
+        { status: 500 }
+      );
+    }
+
+    // Unique payment reference
+    const reference = `LIB-${bookId.toUpperCase()}-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
+    // Integrity signature: SHA256(reference + amountInCents + currency + secret)
+    const concat = `${reference}${amountInCents}COP${integritySecret}`;
+    const signature = crypto.createHash('sha256').update(concat).digest('hex');
+
+    return NextResponse.json({
+      publicKey,
+      reference,
+      signature,
+      amountInCents,
+      currency: 'COP',
+      customerEmail: customerEmail || 'cliente@traccionweb.com',
+      redirectUrl: `https://app.traccionweb.com/libros/pago-confirmado?ref=${reference}`,
+      metadata: {
+        bookId,
+        bookTitle,
+        childName: childName || '',
+        features: features || [],
+      },
+    });
+  } catch {
+    return NextResponse.json({ error: 'Error generando el pago' }, { status: 500 });
+  }
+}
