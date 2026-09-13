@@ -243,12 +243,29 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
         </div>
       </div>
 
+      {/* Sticky Mobile Action Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t-2 border-pink-100 px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-4px_20px_rgba(236,72,153,0.15)]">
+        <div>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Precio total</p>
+          <p className="text-xl font-black text-gray-900 leading-none">{book.price}</p>
+        </div>
+        <a
+          href={`https://wa.me/573026456024?text=${encodeURIComponent(personalizedText)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#25D366] text-white font-black text-sm shadow-lg shadow-green-500/30 active:scale-95 transition-all"
+        >
+          <MessageCircle className="w-4 h-4" />
+          Ordenar ahora
+        </a>
+      </div>
+
       {/* Floating WhatsApp Button */}
       <a
         href="https://wa.me/573026456024?text=Hola,%20quiero%20crear%20un%20libro%20personalizado%20desde%20cero"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-6 py-4 rounded-full bg-[#25D366] text-white font-black text-sm shadow-2xl shadow-green-500/40 hover:bg-[#20bd5a] transition-all active:scale-95"
+        className="md:flex hidden fixed bottom-6 right-6 z-50 items-center gap-2 px-6 py-4 rounded-full bg-[#25D366] text-white font-black text-sm shadow-2xl shadow-green-500/40 hover:bg-[#20bd5a] transition-all active:scale-95"
         aria-label="Crear libro por WhatsApp"
       >
         <MessageCircle className="w-5 h-5" />
