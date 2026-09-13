@@ -47,7 +47,7 @@ const BOOKS = [
   {
     title: 'Mi Primer Libro de Colores',
     description: 'Libro interactivo para los mas pequenos. Aprende colores con imagenes brillantes y texturas suaves.',
-    cover: 'https://i.pinimg.com/originals/f1/61/6c/f1616cac88738eb026f94196d669739b.jpg',
+    cover: '/covers/colores.jpg',
     price: '$14.99',
     color: 'from-yellow-400 via-orange-500 to-red-500',
     pages: '16 paginas',
@@ -56,7 +56,7 @@ const BOOKS = [
   {
     title: 'La Receta Magica',
     description: 'Tu nino/a es el chef estrella en esta aventura culinaria. Aprende sobre comida saludable mientras se divierte.',
-    cover: 'https://i.pinimg.com/originals/bd/ef/af/bdefafdb7ace1948f605d5d8679780c9.jpg',
+    cover: '/covers/receta.jpg',
     price: '$19.99',
     color: 'from-red-400 via-pink-500 to-rose-500',
     pages: '24 paginas',
