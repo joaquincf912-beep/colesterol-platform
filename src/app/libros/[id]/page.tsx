@@ -17,6 +17,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
   const [showManualPay, setShowManualPay] = useState(false);
   const [copied, setCopied] = useState(false);
   const [paypalReady, setPaypalReady] = useState(false);
+  const [paypalConfigured, setPaypalConfigured] = useState<boolean | null>(null);
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const paypalRenderedRef = useRef(false);
 
@@ -57,6 +58,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
       try {
         const cfgRes = await fetch('/api/paypal/config');
         const cfg = await cfgRes.json();
+        setPaypalConfigured(Boolean(cfg.clientId));
         if (cancelled || !cfg.clientId) return;
 
         // Load SDK once (guard against double-inject on re-renders)
@@ -302,7 +304,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
 
               {/* PayPal Smart Payment Buttons — pay without leaving the site */}
               <div className="bg-white rounded-xl p-3 mb-3 min-h-[70px] flex items-center justify-center">
-                {paypalReady ? null : (
+                {paypalReady || paypalConfigured === false ? null : (
                   <div className="flex items-center gap-2 text-gray-400 text-sm font-bold py-3">
                     <Loader2 className="w-4 h-4 animate-spin" />
                     Cargando pago seguro...
@@ -320,6 +322,11 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                     <>
                       <Loader2 className="w-6 h-6 animate-spin" />
                       Procesando...
+                    </>
+                  ) : paypalConfigured === false ? (
+                    <>
+                      <CreditCard className="w-6 h-6" />
+                      Pagar por WhatsApp
                     </>
                   ) : (
                     <>
