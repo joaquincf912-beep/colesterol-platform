@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, MessageCircle, Check, Star, BookOpen, Palette, Gift, Globe, CreditCard, Loader2, Banknote, Copy } from 'lucide-react';
 import { BOOKS } from '@/lib/books-data';
@@ -16,6 +16,9 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
   const [customerEmail, setCustomerEmail] = useState('');
   const [showManualPay, setShowManualPay] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [paypalReady, setPaypalReady] = useState(false);
+  const paypalContainerRef = useRef<HTMLDivElement>(null);
+  const paypalRenderedRef = useRef(false);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -42,6 +45,92 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
       prev.includes(feature) ? prev.filter(f => f !== feature) : [...prev, feature]
     );
   };
+
+  // Load the PayPal JS SDK and render Smart Payment Buttons inside the page.
+  // The customer pays without leaving the site; PayPal opens its own secure
+  // window only for card details / login when needed.
+  useEffect(() => {
+    if (!book) return;
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const cfgRes = await fetch('/api/paypal/config');
+        const cfg = await cfgRes.json();
+        if (cancelled || !cfg.clientId) return;
+
+        // Load SDK once (guard against double-inject on re-renders)
+        if (!(window as unknown as { paypal?: unknown }).paypal) {
+          await new Promise<void>((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(cfg.clientId)}&currency=USD&locale=es_CO&components=buttons&intent=capture&enable-funding=card`; // eslint-disable-line
+            s.async = true;
+            s.onload = () => resolve();
+            s.onerror = () => reject(new Error('SDK load error'));
+            document.head.appendChild(s);
+          });
+        }
+        if (cancelled || !(window as unknown as { paypal?: { Buttons: (o: unknown) => { render: (el: HTMLElement) => Promise<void> } } }).paypal) return;
+
+        const w = window as unknown as {
+          paypal: {
+            Buttons: (options: unknown) => { render: (el: HTMLElement) => Promise<void> };
+          };
+        };
+
+        // Register the pending order server-side and reuse its reference
+        let currentReference = `LIB-${book.id.toUpperCase()}-${Date.now()}`;
+
+        if (paypalContainerRef.current && !paypalRenderedRef.current) {
+          paypalRenderedRef.current = true;
+          await w.paypal.Buttons({
+            style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'paypal', height: 50 },
+            createOrder: async () => {
+              const res = await fetch('/api/paypal/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  bookId: book.id,
+                  bookTitle: book.title,
+                  childName,
+                  features: selectedFeatures,
+                  customerEmail,
+                }),
+              });
+              const data = await res.json();
+              if (!res.ok) throw new Error(data.error || 'Error procesando el pago');
+              currentReference = data.reference || currentReference;
+              return data.orderId;
+            },
+            onApprove: async (ppData: { orderID: string }) => {
+              const capRes = await fetch('/api/paypal/capture', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderId: ppData.orderID, reference: currentReference }),
+              });
+              const capData = await capRes.json();
+              if (capData.ok) {
+                window.location.href = `/libros/pago-confirmado?ref=${encodeURIComponent(currentReference)}&paypal=${encodeURIComponent(ppData.orderID)}`;
+              } else {
+                setPaymentError('El pago no se completo. Intenta de nuevo.');
+              }
+            },
+            onError: () => {
+              setPaymentError('Error de PayPal. Intenta de nuevo o paga por WhatsApp.');
+            },
+          }).render(paypalContainerRef.current);
+          if (!cancelled) setPaypalReady(true);
+        }
+      } catch {
+        if (!cancelled) setPaypalReady(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [book?.id]);
 
   const handleCardPayment = async () => {
     setPaymentError('');
@@ -211,24 +300,35 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                 className="w-full px-4 py-3 rounded-xl border-2 border-white/30 bg-white/10 text-white placeholder:text-white/50 focus:outline-none focus:border-white/60 text-sm font-medium mb-4 transition-colors"
               />
 
-              {/* Card payment button */}
-              <button
-                onClick={handleCardPayment}
-                disabled={processingPayment}
-                className="w-full flex items-center justify-center gap-3 bg-white text-gray-900 py-4 rounded-xl font-black text-lg hover:bg-gray-50 transition-all active:scale-95 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed mb-3"
-              >
-                {processingPayment ? (
-                  <>
-                    <Loader2 className="w-6 h-6 animate-spin" />
-                    Procesando...
-                  </>
-                ) : (
-                  <>
-                    <CreditCard className="w-6 h-6" />
-                    Pagar con PayPal
-                  </>
+              {/* PayPal Smart Payment Buttons — pay without leaving the site */}
+              <div className="bg-white rounded-xl p-3 mb-3 min-h-[70px] flex items-center justify-center">
+                {paypalReady ? null : (
+                  <div className="flex items-center gap-2 text-gray-400 text-sm font-bold py-3">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Cargando pago seguro...
+                  </div>
                 )}
-              </button>
+                <div ref={paypalContainerRef} className={paypalReady ? 'w-full' : 'hidden'} />
+              </div>
+              {!paypalReady && (
+                <button
+                  onClick={handleCardPayment}
+                  disabled={processingPayment}
+                  className="w-full flex items-center justify-center gap-3 bg-white text-gray-900 py-4 rounded-xl font-black text-lg hover:bg-gray-50 transition-all active:scale-95 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed mb-3"
+                >
+                  {processingPayment ? (
+                    <>
+                      <Loader2 className="w-6 h-6 animate-spin" />
+                      Procesando...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="w-6 h-6" />
+                      Pagar con PayPal
+                    </>
+                  )}
+                </button>
+              )}
 
               {paymentError && (
                 <div className="bg-red-500/20 border border-red-300/40 text-white text-sm font-bold px-4 py-3 rounded-xl mb-3">
