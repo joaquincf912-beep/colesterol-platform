@@ -13,7 +13,7 @@ type BookOrder = {
   features?: string[];
   amountInCents?: number;
   customerEmail?: string;
-  wompiTransactionId?: string;
+  paypalTransactionId?: string;
   updated_at?: string;
   updatedAt?: string;
 };

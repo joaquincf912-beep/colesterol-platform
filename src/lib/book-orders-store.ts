@@ -1,5 +1,5 @@
 // Shared BookOrder type + in-memory store for the books payment flow.
-// The webhook updates status; checkout creates pending orders; the admin panel reads them.
+// PayPal checkout creates pending orders; the capture route updates status; the admin panel reads them.
 
 export type BookOrder = {
   reference: string;
@@ -10,7 +10,8 @@ export type BookOrder = {
   features?: string[];
   amountInCents?: number;
   customerEmail?: string;
-  wompiTransactionId?: string;
+  paypalOrderId?: string;
+  paypalTransactionId?: string;
   paymentMethod?: string;
   updatedAt: string;
 };

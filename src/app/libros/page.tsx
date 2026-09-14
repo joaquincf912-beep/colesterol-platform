@@ -7,69 +7,8 @@ import {
   Moon, TreePine, Fish, Cat, Dog, Rainbow, Crown
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { BOOKS } from '@/lib/books-data';
 
-const BOOKS = [
-  {
-    id: 'superheroe',
-    title: 'El Superheroe de [Nombre]',
-    description: 'Tu niño/a es el protagonista de su propia aventura de superheroe. Incluye su nombre, apariencia y poderes especiales.',
-    cover: '/covers/superheroe.jpg',
-    price: '$19.99',
-    color: 'from-blue-400 via-indigo-500 to-purple-600',
-    pages: '24 páginas',
-    icon: Star,
-  },
-  {
-    id: 'princesa',
-    title: 'Mi Princesa Favorita',
-    description: 'Una historia magica donde tu hija es la princesa mas valiente del reino. Con dragones, castillos y mucho amor.',
-    cover: '/covers/princesa.jpg',
-    price: '$19.99',
-    color: 'from-pink-400 via-rose-500 to-fuchsia-600',
-    pages: '24 páginas',
-    icon: Crown,
-  },
-  {
-    id: 'espacio',
-    title: 'Aventura en el Espacio',
-    description: 'Tu hijo/a viaja a la luna y mas alla en esta emocionante aventura espacial. Con planetas, cohetes y aliens amigables.',
-    cover: '/covers/espacio.jpg',
-    price: '$22.99',
-    color: 'from-indigo-400 via-blue-500 to-cyan-600',
-    pages: '28 páginas',
-    icon: Moon,
-  },
-  {
-    id: 'bosque',
-    title: 'El Bosque Encantado',
-    description: 'Una aventura en la naturaleza donde tu niño/a hace amigos con todos los animales del bosque.',
-    cover: '/covers/bosque.jpg',
-    price: '$19.99',
-    color: 'from-green-400 via-emerald-500 to-teal-600',
-    pages: '24 páginas',
-    icon: TreePine,
-  },
-  {
-    id: 'colores',
-    title: 'Mi Primer Libro de Colores',
-    description: 'Libro interactivo para los mas pequeños. Aprende colores con imagenes brillantes y texturas suaves.',
-    cover: '/covers/colores.jpg',
-    price: '$14.99',
-    color: 'from-yellow-400 via-orange-500 to-red-500',
-    pages: '16 páginas',
-    icon: Rainbow,
-  },
-  {
-    id: 'receta',
-    title: 'La Receta Magica',
-    description: 'Tu niño/a es el chef estrella en esta aventura culinaria. Aprende sobre comida saludable mientras se divierte.',
-    cover: '/covers/receta.jpg',
-    price: '$19.99',
-    color: 'from-red-400 via-pink-500 to-rose-500',
-    pages: '24 páginas',
-    icon: Heart,
-  },
-];
 
 const FEATURES = [
   {
@@ -359,7 +298,7 @@ export default function LibrosPage() {
                   
                   {/* Book icon overlay */}
                   <div className="absolute top-4 left-4 bg-white/95 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg">
-                    <book.icon className="w-5 h-5 text-pink-500" />
+                    <BookOpen className="w-5 h-5 text-pink-500" />
                   </div>
                   
                   {/* Price tag */}

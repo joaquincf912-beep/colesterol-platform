@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { orderStore } from '@/lib/book-orders-store';
 
 // GET /api/book-orders -> list all book orders (paid, pending, declined...)
-// Reads from Supabase when available, falls back to the in-memory store fed by the Wompi webhook.
+// Reads from Supabase when available, falls back to the in-memory store fed by the PayPal flow.
 
 export async function GET() {
   const orders: Record<string, unknown>[] = [];
