@@ -76,7 +76,7 @@ export default function KitchenDisplay() {
 
     fetchOrders();
     setIsLoading(false);
-    const interval = setInterval(fetchOrders, 2000);
+    const interval = setInterval(fetchOrders, 4000);
     return () => clearInterval(interval);
   }, []);
 

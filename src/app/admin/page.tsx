@@ -215,7 +215,7 @@ export default function AdminDashboard() {
     fetchOrders();
     setProducts(DEMO_PRODUCTS);
     setIsLoading(false);
-    const interval = setInterval(fetchOrders, 2000);
+    const interval = setInterval(fetchOrders, 4000);
   }, []);
 
   // Refresh timestamps every 10s for live monitor

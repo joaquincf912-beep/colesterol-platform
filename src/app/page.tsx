@@ -46,15 +46,7 @@ export default function MenuPage() {
   const [isUpsellOpen, setIsUpsellOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { getItemCount, getTotal } = useCart();
-  const [cartCount, setCartCount] = useState(0);
-
-  // Keep cart count in sync
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCartCount(getItemCount());
-    }, 500);
-    return () => clearInterval(interval);
-  }, [getItemCount]);
+  const cartCount = getItemCount();
 
   // Load products
   useEffect(() => {

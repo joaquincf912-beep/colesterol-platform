@@ -20,7 +20,7 @@ export default function DeliveryApp() {
       } catch {}
     };
     fetchOrders();
-    const interval = setInterval(fetchOrders, 3000);
+    const interval = setInterval(fetchOrders, 4000);
     return () => clearInterval(interval);
   }, []);
 

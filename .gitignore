@@ -28,6 +28,12 @@ yarn-error.log*
 .env
 .env.local
 .env.development.local
+
+# heavy raw media (never commit)
+*.MOV
+*.mov
+*.MP4.orig
+public/**/*.tmp
 .env.test.local
 .env.production.local
 

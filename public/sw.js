@@ -1,25 +1,55 @@
-// TraccionWeb Service Worker
-// Handles push notifications and caching
+// TraccionWeb Service Worker — cache-first para estáticos, network para lo demás
+const CACHE = 'tw-v2';
 
-const CACHE_NAME = 'traccionweb-v1';
-const STATIC_ASSETS = ['/', '/pedidos', '/delivery', '/admin'];
-
-// Install
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
-  );
+self.addEventListener('install', (e) => {
   self.skipWaiting();
 });
 
-// Activate
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
-    )
+      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
+});
+
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+  if (url.origin !== location.origin) return;
+
+  // Cache-first para assets con hash (nunca cambian)
+  if (url.pathname.startsWith('/_next/static/') || /\.(jpg|jpeg|png|webp|avif|svg|woff2|mp4)$/i.test(url.pathname)) {
+    event.respondWith(
+      caches.match(request).then(
+        (hit) =>
+          hit ||
+          fetch(request).then((res) => {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(request, copy));
+            return res;
+          })
+      )
+    );
+    return;
+  }
+
+  // Network-first para HTML/API (siempre fresco, cache como fallback offline)
+  if (request.mode === 'navigate' || url.pathname.startsWith('/api/')) {
+    event.respondWith(
+      fetch(request)
+        .then((res) => {
+          if (request.mode === 'navigate' && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(request, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(request))
+    );
+  }
 });
 
 // Push notification
@@ -42,14 +72,12 @@ self.addEventListener('push', (event) => {
   );
 });
 
-// Notification click
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   if (event.action === 'dismiss') return;
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      // Focus existing window or open new one
       for (const client of clientList) {
         if (client.url.includes('/pedidos') && 'focus' in client) {
           return client.focus();

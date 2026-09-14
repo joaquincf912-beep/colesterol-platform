@@ -1,11 +1,34 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import {
   Eye, Users, Zap, Globe,
   Check, ArrowRight, Star, MessageCircle,
   Target, Video, Film, Palette, Play, Wand2, Layers
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+// Pausa los videos cuando salen del viewport y los reproduce al entrar (ahorra datos y CPU)
+function useVideoAutoplayInView() {
+  useEffect(() => {
+    const videos = document.querySelectorAll<HTMLVideoElement>('[data-dood-video] video');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const v = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            v.play().catch(() => {});
+          } else {
+            v.pause();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    videos.forEach((v) => observer.observe(v));
+    return () => observer.disconnect();
+  }, []);
+}
 
 const FEATURES = [
   {
@@ -127,6 +150,8 @@ const PLANS = [
 ];
 
 export default function DOOHPage() {
+  useVideoAutoplayInView();
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Navigation */}
@@ -248,8 +273,8 @@ export default function DOOHPage() {
               <div key={i} className="bg-white/[0.02] border border-white/[0.04] rounded-3xl overflow-hidden group">
                 <div className="relative aspect-[9/16]">
                   <video
+                    data-dood-video
                     className="w-full h-full object-cover"
-                    autoPlay
                     muted
                     loop
                     playsInline
