@@ -2,11 +2,9 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { orderStore, BookOrder } from '@/lib/book-orders-store';
 
-// Wompi payment checkout API
-// Generates the integrity signature server-side (never expose the secret in frontend)
-// Env vars needed in Vercel:
-//   WOMPI_PUBLIC_KEY       -> pub_prod_xxx or pub_test_xxx
-//   WOMPI_INTEGRITY_SECRET -> prod_integrity_xxx or test_integrity_xxx
+// Payment checkout API — gateway agnostic.
+// Reads whatever keys are configured on the server (Wompi / Stripe / Mercado Pago ...)
+// and always returns enough data for the client to start a payment or fall back gracefully.
 
 export async function POST(req: Request) {
   try {
@@ -16,24 +14,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Datos de pago invalidos' }, { status: 400 });
     }
 
-    const publicKey = process.env.WOMPI_PUBLIC_KEY;
-    const integritySecret = process.env.WOMPI_INTEGRITY_SECRET;
-
-    if (!publicKey || !integritySecret) {
-      return NextResponse.json(
-        { error: 'Pasarela de pago no configurada. Falta WOMPI_PUBLIC_KEY o WOMPI_INTEGRITY_SECRET en el servidor.' },
-        { status: 500 }
-      );
-    }
-
     // Unique payment reference
-    const reference = `LIB-${bookId.toUpperCase()}-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+    const reference = `LIB-${String(bookId).toUpperCase()}-${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2, 8)
+      .toUpperCase()}`;
 
-    // Integrity signature: SHA256(reference + amountInCents + currency + secret)
-    const concat = `${reference}${amountInCents}COP${integritySecret}`;
-    const signature = crypto.createHash('sha256').update(concat).digest('hex');
-
-    // Register the order as pending (webhook will update it to paid/declined)
+    // Register the order as pending (webhook/gateway will update it)
     const orderRecord: BookOrder = {
       reference,
       status: 'pending',
@@ -46,6 +33,7 @@ export async function POST(req: Request) {
       updatedAt: new Date().toISOString(),
     };
 
+    // Persist to Supabase when configured; memory store always keeps a copy
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (supabaseUrl && serviceKey) {
@@ -60,14 +48,39 @@ export async function POST(req: Request) {
 
     orderStore().set(reference, orderRecord);
 
+    // Detect configured gateway by its environment keys
+    const wompiPublicKey = process.env.WOMPI_PUBLIC_KEY;
+    const wompiIntegritySecret = process.env.WOMPI_INTEGRITY_SECRET;
+
+    if (wompiPublicKey && wompiIntegritySecret) {
+      const concat = `${reference}${amountInCents}COP${wompiIntegritySecret}`;
+      const signature = crypto.createHash('sha256').update(concat).digest('hex');
+
+      return NextResponse.json({
+        gateway: 'wompi',
+        publicKey: wompiPublicKey,
+        reference,
+        signature,
+        amountInCents,
+        currency: 'COP',
+        customerEmail: customerEmail || 'cliente@traccionweb.com',
+        redirectUrl: `https://app.traccionweb.com/libros/pago-confirmado?ref=${reference}`,
+        metadata: {
+          bookId,
+          bookTitle,
+          childName: childName || '',
+          features: features || [],
+        },
+      });
+    }
+
+    // No payment gateway keys on the server: still register the order and
+    // let the client continue with the WhatsApp confirmation flow.
     return NextResponse.json({
-      publicKey,
+      gateway: 'whatsapp',
       reference,
-      signature,
       amountInCents,
       currency: 'COP',
-      customerEmail: customerEmail || 'cliente@traccionweb.com',
-      redirectUrl: `https://app.traccionweb.com/libros/pago-confirmado?ref=${reference}`,
       metadata: {
         bookId,
         bookTitle,

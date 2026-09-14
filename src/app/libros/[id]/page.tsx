@@ -142,6 +142,21 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
         throw new Error(data.error || 'Error procesando el pago');
       }
 
+      // Gateway not configured on the server: continue with WhatsApp confirmation
+      if (data.gateway === 'whatsapp') {
+        const parts = [
+          `Hola! Quiero comprar el libro "${book.title}"`,
+          childName ? `para ${childName}` : '',
+          `Referencia: ${data.reference}`,
+          `Total: ${book.price}`,
+          selectedFeatures.length ? `Personalizacion: ${selectedFeatures.join(', ')}` : '',
+          'Tengo los datos listos para coordinar el pago.',
+        ].filter(Boolean);
+        window.open(`https://wa.me/573026456024?text=${encodeURIComponent(parts.join('. '))}`, '_blank');
+        setProcessingPayment(false);
+        return;
+      }
+
       // Build Wompi Web Checkout form and submit
       const form = document.createElement('form');
       form.method = 'POST';
