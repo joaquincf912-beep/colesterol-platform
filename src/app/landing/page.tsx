@@ -1,10 +1,10 @@
 'use client';
 
-
+import { useEffect, useRef, useState } from 'react';
 import {
-  Smartphone, Monitor, Zap, Shield, BarChart3, Truck,
-  ChefHat, Clock, Wifi, Globe, MessageCircle, Check,
-  ArrowRight, Star, TrendingUp, Users, CreditCard
+  Smartphone, Zap, BarChart3, Truck,
+  ChefHat, MessageCircle, Check,
+  ArrowRight, Star, CreditCard
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -111,6 +111,45 @@ const PRICING = [
     highlighted: false,
   },
 ];
+
+function LazyDemo({ src, height, label }: { src: string; height: number; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || visible) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin: '250px' }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [visible]);
+
+  return (
+    <div ref={ref} className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5" style={{ height }}>
+      {visible ? (
+        <iframe
+          src={src}
+          title={label}
+          loading="lazy"
+          className="w-full h-full border-0"
+        />
+      ) : (
+        <div className="w-full h-full flex flex-col items-center justify-center gap-3">
+          <div className="w-8 h-8 rounded-full border-2 border-[#FFC700]/20 border-t-[#FFC700] animate-spin" />
+          <p className="text-[10px] text-white/30 uppercase tracking-wider font-bold">{label}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function LandingPage() {
   return (
@@ -235,46 +274,14 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Menu Demo - Full Width (mockup ligero, sin iframe) */}
+          {/* Menu Demo - Full Width (app real embebida, carga diferida) */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-2 h-2 rounded-full bg-[#FFC700]" />
               <span className="text-sm font-bold text-white">Menu del Cliente</span>
               <span className="text-[10px] text-white/20">app.traccionweb.com</span>
             </div>
-            <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5 p-6" style={{ height: 500 }}>
-              <div className="h-full flex flex-col">
-                <div className="flex items-center justify-between mb-5">
-                  <div>
-                    <p className="text-[10px] text-white/30 uppercase tracking-wider font-bold">Como quieres tu pedido</p>
-                    <p className="text-lg font-black text-white mt-0.5">¿Qué quieres hoy?</p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-[#FFC700] flex items-center justify-center text-black font-black">C</div>
-                </div>
-                <div className="grid grid-cols-2 gap-3 flex-1">
-                  {[
-                    { name: 'Smash Doble', price: '$6.99', tag: '#1 Mas vendida' },
-                    { name: 'Crispy Chicken', price: '$5.99', tag: 'Nueva' },
-                    { name: 'Papas Supreme', price: '$3.49', tag: 'Con queso' },
-                    { name: 'Malteada Oreo', price: '$2.99', tag: 'Fria' },
-                  ].map((item) => (
-                    <div key={item.name} className="bg-[#000000] rounded-2xl border border-white/5 p-4 flex flex-col justify-between">
-                      <div>
-                        <div className="w-full aspect-square rounded-xl bg-gradient-to-br from-[#2C2C2E] to-[#1C1C1E] mb-3 flex items-center justify-center">
-                          <span className="text-3xl opacity-40">🍔</span>
-                        </div>
-                        <p className="text-sm font-bold text-white">{item.name}</p>
-                        <p className="text-[10px] text-white/30">{item.tag}</p>
-                      </div>
-                      <div className="flex items-center justify-between mt-2">
-                        <span className="text-[#FFC700] font-black">{item.price}</span>
-                        <div className="w-7 h-7 rounded-full bg-[#FFC700] flex items-center justify-center text-black font-black text-sm">+</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <LazyDemo src="/" height={500} label="Cargando Menu" />
           </div>
 
           {/* KDS + Delivery + Admin - 3 columns (mockups ligeros) */}
@@ -285,26 +292,7 @@ export default function LandingPage() {
                 <div className="w-2 h-2 rounded-full bg-orange-400" />
                 <span className="text-sm font-bold text-white">Cocina (KDS)</span>
               </div>
-              <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5 p-4" style={{ height: 350 }}>
-                <div className="space-y-3">
-                  {[
-                    { id: '#034', items: '2x Smash Doble', time: '5 min', color: 'border-white/20' },
-                    { id: '#035', items: '1x Crispy + Papas', time: '12 min', color: 'border-[#FFC700]' },
-                    { id: '#036', items: '3x Malteada', time: '21 min', color: 'border-red-500' },
-                  ].map((o) => (
-                    <div key={o.id} className={`bg-[#000000] rounded-xl border-l-4 ${o.color} p-3`}>
-                      <div className="flex justify-between items-center">
-                        <span className="text-white font-black text-sm">{o.id}</span>
-                        <span className="text-[10px] text-white/40">{o.time}</span>
-                      </div>
-                      <p className="text-xs text-white/60 mt-1">{o.items}</p>
-                      <div className="h-1.5 rounded-full bg-white/5 mt-2 overflow-hidden">
-                        <div className="h-full w-2/3 bg-[#FFC700] rounded-full" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <LazyDemo src="/pedidos" height={350} label="Cargando Cocina" />
             </div>
 
             {/* Delivery */}
@@ -313,22 +301,7 @@ export default function LandingPage() {
                 <div className="w-2 h-2 rounded-full bg-blue-400" />
                 <span className="text-sm font-bold text-white">Reparto</span>
               </div>
-              <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5 p-4" style={{ height: 350 }}>
-                <div className="bg-[#000000] rounded-xl p-4 h-full">
-                  <p className="text-[10px] text-white/30 uppercase tracking-wider font-bold">Entrega activa</p>
-                  <p className="text-white font-black text-lg mt-1">Pedido #035</p>
-                  <div className="relative h-28 rounded-xl bg-gradient-to-br from-[#1a2b1a] to-[#0a1a0a] my-3 overflow-hidden">
-                    <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(50,205,50,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(50,205,50,0.08) 1px, transparent 1px)', backgroundSize: '18px 18px' }} />
-                    <div className="absolute left-[15%] top-[60%] w-3 h-3 rounded-full bg-[#32D74B]" />
-                    <div className="absolute left-[70%] top-[25%] w-3 h-3 rounded-full bg-[#FFC700]" />
-                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M 18 62 Q 45 30 68 27" stroke="#32D74B" strokeWidth="1.5" fill="none" strokeDasharray="4 3" /></svg>
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="flex-1 bg-[#32D74B]/10 border border-[#32D74B]/30 rounded-lg py-2 text-center text-[10px] font-bold text-[#32D74B]">Llamar</div>
-                    <div className="flex-1 bg-[#32D74B]/10 border border-[#32D74B]/30 rounded-lg py-2 text-center text-[10px] font-bold text-[#32D74B]">WhatsApp</div>
-                  </div>
-                </div>
-              </div>
+              <LazyDemo src="/delivery" height={350} label="Cargando Reparto" />
             </div>
 
             {/* Admin */}
@@ -337,29 +310,7 @@ export default function LandingPage() {
                 <div className="w-2 h-2 rounded-full bg-green-400" />
                 <span className="text-sm font-bold text-white">Admin Dashboard</span>
               </div>
-              <div className="bg-[#1C1C1E] rounded-3xl overflow-hidden border border-white/5 p-4" style={{ height: 350 }}>
-                <div className="grid grid-cols-2 gap-2 mb-3">
-                  {[
-                    { label: 'Ventas hoy', value: '$248', c: 'text-[#FFC700]' },
-                    { label: 'Pedidos', value: '34', c: 'text-white' },
-                    { label: 'Ticket prom.', value: '$7.29', c: 'text-white' },
-                    { label: 'En cocina', value: '6', c: 'text-orange-400' },
-                  ].map((s) => (
-                    <div key={s.label} className="bg-[#000000] rounded-xl p-3">
-                      <p className="text-[9px] text-white/30 uppercase font-bold">{s.label}</p>
-                      <p className={`text-lg font-black ${s.c}`}>{s.value}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="bg-[#000000] rounded-xl p-3">
-                  <p className="text-[9px] text-white/30 uppercase font-bold mb-2">Ventas por hora</p>
-                  <div className="flex items-end gap-1.5 h-20">
-                    {[35, 55, 40, 70, 90, 65, 80, 100, 75, 60, 85, 95].map((h, i) => (
-                      <div key={i} className="flex-1 bg-gradient-to-t from-[#FFC700]/20 to-[#FFC700] rounded-t" style={{ height: `${h}%` }} />
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <LazyDemo src="/admin" height={350} label="Cargando Admin" />
             </div>
           </div>
 
